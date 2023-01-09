@@ -1,0 +1,9 @@
+#messaging-wrapper {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+}
+#messaging-previews {
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--grey-200);
+}

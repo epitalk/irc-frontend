@@ -1,0 +1,10 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: space(0.5)
+}
+.logo-text {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--contrast, #fff);
+}

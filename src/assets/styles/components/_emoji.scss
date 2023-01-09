@@ -1,0 +1,58 @@
+@import "../core/functions";
+
+/*Emoji button*/
+.emoji-button {
+  background-image: url("https://en-zo.dev/vue-discord-emojipicker/sprite_emojis.png");
+  transition: filter 0.2s ease;
+  filter: grayscale(1);
+  background-size: 264px 96px;
+  background-repeat: no-repeat;
+  display: block;
+  cursor: pointer;
+
+  &:hover {
+    filter: none;
+  }
+}
+/*Emoji auto complete*/
+.emoji__autocomplete {
+  background-color: rgb(47, 49, 54);
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  padding: 12px 0;
+  position: absolute;
+  top: -1rem;
+  
+  &-result{
+    color: rgb(185, 187, 190);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0 20px;
+    margin-bottom: 12px;
+  }
+
+  &-list {
+    padding: 0 12px;
+  }
+  &-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 8px 4px;
+
+    &:hover {
+      background-color: rgba(79, 84, 92, 0.6)
+    }
+  }
+  &-emoji {
+    font-size: 18px;
+  }
+  &-command {
+    font-weight: 500;
+    color: white;
+    font-size: 14px;
+    margin-left: 8px;
+  }
+}

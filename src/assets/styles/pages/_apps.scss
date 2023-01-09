@@ -1,0 +1,29 @@
+@import "../core/functions";
+@import "../core/container";
+@import "../core/mixins";
+h1 {
+  font-size: 56px;
+
+  @include down(900) {
+    font-size: 40px;
+  }
+  @include down(500) {
+    font-size: 24px;
+  }
+}
+.apps-container {
+  @extend .container;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  gap: space(7)
+}
+
+.apps-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: space(3);
+  width: 100%;
+}

@@ -1,0 +1,9 @@
+.messages {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+#messaging {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
