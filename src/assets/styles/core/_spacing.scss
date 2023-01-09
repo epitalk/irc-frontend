@@ -19,6 +19,10 @@ $max: 8;
   .ml-#{$i} {
     margin-left: space($i)
   }
+  .mx-#{$i} {
+    margin-left: space($i);
+    margin-right: space($i)
+  }
   .mb-#{$i} {
     margin-bottom: space($i)
   }
