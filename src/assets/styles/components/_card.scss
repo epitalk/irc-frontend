@@ -1,0 +1,20 @@
+@import "../core/functions";
+/*AppCard*/
+.app-card {
+  display: grid;
+  align-items: center;
+  cursor: pointer;
+  padding: space(1) space(2);
+  background: var(--grey-300);
+  gap: space(2);
+  border-radius: 16px;
+  user-select: none;
+  border: 3px solid transparent;
+  height: 210px;
+}
+
+.app-card {
+  &.active, &:hover {
+    border-color: var(--contrast-primary);
+  }
+}

@@ -1,0 +1,24 @@
+.chat-preview {
+  cursor: pointer;
+  transition: background-color .25s ease;
+  &.active {
+    background-color: var(--grey-400);
+  }
+  &:hover {
+    background-color: var(--grey-500);
+  }
+}
+
+.chat-preview p {
+  max-width: 150px;
+}
+
+.notify-bubble {
+  background: var(--contrast-primary);
+  font-size: 10px;
+  line-height: 1;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 4px;
+  color: var(--dark)
+}

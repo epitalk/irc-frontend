@@ -1,0 +1,47 @@
+@use 'sass:color';
+@use 'sass:math';
+@import "../core/variables";
+
+$toggle_button_width: 24px;
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: var(--grey-500);
+}
+
+.sidebar.expand {
+  width: 18rem;
+}
+
+.sidebar-link {
+  cursor: pointer;
+  border-radius: var(--radius);
+  line-height: 1;
+  transition: background-color .3s ease;
+
+  &:hover {
+    background: var(--grey-200);
+  }
+
+  &.active {
+    background: var(--primary);
+  }
+}
+
+.sidebar .toggle {
+  background: map-get($light, primary);
+  border-radius: 24px;
+  height: $toggle_button_width;
+  width: $toggle_button_width;
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  left: calc(100% - #{math.div($toggle_button_width, 3)});
+
+  &:hover {
+    $color: color.adjust(map-get($light, primary), $saturation: -22%, $lightness: -10%);
+    background: $color;
+  }
+}

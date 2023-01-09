@@ -1,0 +1,31 @@
+.avatar {
+  position: relative;
+  background: var(--grey-500);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+}
+
+.avatar {
+  &.active, &.clickable:hover  {
+    border: 2px solid var(--light);
+  }
+}
+.avatar.clickable {
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Status */
+.status-online {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 10px;
+  height: 10px;
+  background: var(--success);
+  border-radius: 10px;
+  border: 1px solid var(--light);
+}
