@@ -1,0 +1,74 @@
+@import "functions";
+
+$font: 'Poppins', "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+$light: (
+        primary: hsl(248, 84%, 70%),
+        success: hsl(156, 100%, 48%),
+        warn: hsl(40, 100%, 74%),
+        red: hsl(353, 83%, 57%),
+        dark: hsl(208, 25%, 10%),
+        light: hsl(249, 47%, 97%),
+        disabled: hsl(218, 22%, 24%),
+        grey-700: hsl(221, 37%, 10%),
+        grey-600: hsl(207, 20%, 30%),
+        grey-500: hsl(213, 25%, 14%),
+        grey-400: hsl(207, 18%, 25%),
+        grey-300: hsl(221, 15%, 32%),
+        grey-200: hsl(217, 25%, 18%)
+);
+
+// Variables
+:root {
+  --radius: 4px;
+  --primary: #{map-get($light, primary)};
+  --success: #{map-get($light, success)};
+  --warn: #{map-get($light, warn)};
+  --red: #{map-get($light, red)};
+  --dark: #{map-get($light, dark)};
+  --light: #{map-get($light, light)};
+  --contrast: rgb(0, 0, 0);
+  --contrast-primary: #BDB3FF;
+  --contrast-30: rgb(0, 0, 0, .3);
+  --contrast-70: rgb(0, 0, 0, .7);
+  --disabled: #{map-get($light, disabled)};
+  --grey-700: #{map-get($light, grey-700)};
+  --grey-600: #{map-get($light, grey-600)};
+  --grey-500: #{map-get($light, grey-500)};
+  --grey-400: #{map-get($light, grey-400)};
+  --grey-300: #{map-get($light, grey-300)};
+  --grey-200: #{map-get($light, grey-200)};
+}
+
+// Dark mode
+@include dark {
+  --primary: #{map-get($light, primary)};
+  --success: #{map-get($light, success)};
+  --warn: #{map-get($light, warn)};
+  --red: #{map-get($light, red)};
+  --dark: #{map-get($light, dark)};
+  --light: #{map-get($light, light)};
+  --contrast: rgb(255, 255, 255);
+  --contrast-primary: #BDB3FF;
+  --contrast-30: rgb(255, 255, 255, .3);
+  --contrast-70: rgb(255, 255, 255, .7);
+  --disabled: #{map-get($light, disabled)};
+  --grey-700: #{map-get($light, grey-700)};
+  --grey-600: #{map-get($light, grey-600)};
+  --grey-500: #{map-get($light, grey-500)};
+  --grey-400: #{map-get($light, grey-400)};
+  --grey-300: #{map-get($light, grey-300)};
+  --grey-200: #{map-get($light, grey-200)};
+}
+
+
+$variants: (
+        primary: map-get($light, primary),
+        grey-500: map-get($light, grey-500),
+        secondary: map-get($light, grey-400),
+        success: map-get($light, success),
+        warn: map-get($light, warn),
+        red: map-get($light, red),
+        dark: map-get($light, dark),
+        light: map-get($light, light)
+);

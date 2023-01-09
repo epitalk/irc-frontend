@@ -1,0 +1,15 @@
+.spinner {
+  stroke: var(--primary);
+  width: 56px;
+  height: 56px;
+  animation: spin linear infinite .9s;
+}
+
+.spinner .stop1 {
+  stop-color: var(--grey-400);
+  stop-opacity: 0;
+}
+
+.spinner .stop2 {
+  stop-color: var(--primary);
+}

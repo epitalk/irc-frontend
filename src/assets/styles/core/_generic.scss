@@ -1,0 +1,71 @@
+// Generic
+body {
+  font-family: $font;
+  font-size: 16px;
+  color: var(--light);
+  line-height: 1.6;
+  background: var(--grey-700);
+  scroll-margin: 100px 0 0 0;
+  word-break: break-word;
+}
+
+body.light {
+  background: var(--light);
+}
+
+.main {
+  width: 100%;
+  overflow: hidden auto;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+.opacity-0 {
+  opacity: 0;
+}
+
+.icon-event {
+  color: #cecece;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--light, #fff);
+  }
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*Height && width */
+.vh-100 {
+  min-height: 100vh;
+}
+.h-full {
+  height: 100%;
+}
+.w-full {
+  width: 100%;
+}
+
+/* Pseudo-classes */
+::selection {
+  background: var(--contrast-primary);
+  color: var(--dark);
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--contrast-30);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--contrast-30);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--contrast-30);
+}

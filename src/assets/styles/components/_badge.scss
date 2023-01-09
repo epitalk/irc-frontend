@@ -1,0 +1,5 @@
+.badge {
+  &[data-type='success'] {
+    background: hsla(var(--success), 0.25);
+  }
+}
