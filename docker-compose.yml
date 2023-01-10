@@ -1,11 +1,12 @@
 version: '3.8'
 
 services:
-  vue-app:
-    image: node:lts
-    working_dir: /app
-    command: sh -c "npm install && npm run dev"
-    ports:
-      - "5173:5173"
+  vue-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/app
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '5173:5173'
