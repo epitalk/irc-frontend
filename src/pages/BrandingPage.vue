@@ -19,6 +19,8 @@
 
     <h2 class="mb-2">Sidebar</h2>
     <Sidebar/>
+    <h2 class="mb-2">Messages</h2>
+    <Messages :messages="messages"/>
   </section>
 </template>
 
@@ -28,4 +30,6 @@ import Avatar from "@/components/Common/Avatar.vue"
 import Logo from "@/components/Brands/Logo.vue"
 import Sidebar from "@/components/Navigations/Sidebar/index.vue"
 import Icon from "@/components/Common/Icon.vue"
+import Messages from "@/components/Messaging/Messages.vue"
+import messages from "@/data/messages.json"
 </script>
