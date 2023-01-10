@@ -1,0 +1,47 @@
+[
+  {
+    "text": "dashboard",
+    "icon": "home",
+    "to": "/"
+  },
+  {
+    "text": "contents",
+    "icon": "edit",
+    "to": "/contents"
+  },
+  {
+    "text": "collections",
+    "icon": "database",
+    "to": "/collections"
+  },
+  {
+    "text": "messaging",
+    "icon": "message-circle",
+    "to": "/messaging"
+  },
+  {
+    "text": "users",
+    "icon": "users",
+    "to": "/users"
+  },
+  {
+    "text": "emails",
+    "icon": "mail",
+    "to": "/emails"
+  },
+  {
+    "text": "automating",
+    "icon": "share-2",
+    "to": "/automating"
+  },
+  {
+    "text": "history",
+    "icon": "history",
+    "to": "/history"
+  },
+  {
+    "text": "settings",
+    "icon": "settings",
+    "to": "/settings"
+  }
+]

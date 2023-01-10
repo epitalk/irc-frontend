@@ -13,11 +13,19 @@
     <h2 class="mb-2">Logo</h2>
     <Logo/>
     <Logo large/>
+
+    <h2 class="mb-2">Icon</h2>
+    <Icon name="arrow-right"/>
+
+    <h2 class="mb-2">Sidebar</h2>
+    <Sidebar/>
   </section>
 </template>
 
 
 <script lang="ts" setup>
 import Avatar from "@/components/Common/Avatar.vue"
-import Logo from "@/components/Common/Logo.vue"
+import Logo from "@/components/Brands/Logo.vue"
+import Sidebar from "@/components/Navigations/Sidebar/index.vue"
+import Icon from "@/components/Common/Icon.vue"
 </script>
