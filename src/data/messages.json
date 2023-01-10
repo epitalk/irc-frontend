@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "content":
+    "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    "created_at": "10:05 AM",
+    "updated_at": "10:05 AM",
+    "isUserMessage": false,
+    "user": {
+      "id": 1,
+      "username": "Brooklyn Simmons"
+    },
+    "message_id": 5
+  },
+  {
+    "id": 2,
+    "content":
+    "All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet",
+    "created_at": "10:03 AM",
+    "updated_at": "10:03 AM",
+    "isUserMessage": false,
+    "user": {
+      "id": 1,
+      "username": "Brooklyn Simmons"
+    },
+    "message_id": 4
+  },
+  {
+    "content":
+    "Or maybe not, let me check logistics and call you. Give me sometime",
+    "created_at": "10:03 AM",
+    "isUserMessage": true,
+    "user": {
+      "id": 1,
+      "username": "Brooklyn Simmons"
+    },
+    "message_id": 3
+  },
+  {
+    "content": "I believe they must have misplaced it elsewhere?!",
+    "created_at": "10:02 AM",
+    "isUserMessage": true,
+    "message_id": 2
+  },
+  {
+    "content": "Did you recieve the package I sent you the other day?",
+    "created_at": "10:00 AM",
+    "isUserMessage": true,
+    "message_id": 1
+  },
+  {
+    "content": "Did you recieve the package I sent you the other day?",
+    "created_at": "10:00 AM",
+    "isUserMessage": false,
+    "user": {
+      "id": 1,
+      "username": "Brooklyn Simmons"
+    },
+    "message_id": 9
+  },
+  {
+    "content": "Did you recieve the package I sent you the other day?",
+    "created_at": "10:00 AM",
+    "isUserMessage": false,
+    "user": {
+      "id": 1,
+      "username": "Brooklyn Simmons"
+    },
+    "message_id": 14
+  }
+]
