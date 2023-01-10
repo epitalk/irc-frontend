@@ -15,7 +15,7 @@
     <Logo large/>
 
     <h2 class="mb-2">Icon</h2>
-    <Icon name="arrow-right"/>
+    <Icon name="arrow-right" stroke="white" title="droite"/>
 
     <h2 class="mb-2">Sidebar</h2>
     <Sidebar/>

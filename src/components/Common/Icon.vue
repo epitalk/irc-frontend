@@ -4,7 +4,7 @@
        :height="height"
        :viewBox="`0 0 24 24`"
        :aria-labelledby="name">
-    <title :id="title ? title : name" lang="en">{{name}} icon</title>
+    <title :id="title ? title : name" lang="en">{{title ? title : name}}</title>
     <g :stroke="stroke ?? 'transparent'" :fill="fill ?? 'transparent'">
       <AsyncComp/>
     </g>
@@ -20,7 +20,8 @@ const props = defineProps({
     required: true
   },
   title: {
-    type: String
+    type: String,
+    default: null
   },
   width: {
     type: [Number, String],
@@ -40,8 +41,10 @@ const props = defineProps({
   }
 })
 
+console.log(props.name)
+
 const AsyncComp = defineAsyncComponent(() =>
-    import(`./Icons/${props.name}.vue`)
+    import(`../Icons/${props.name}.vue`)
 )
 
 </script>
