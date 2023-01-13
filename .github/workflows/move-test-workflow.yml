@@ -1,0 +1,28 @@
+name: Move Test Workflow
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  move-test-job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check for "move-test" comment
+      id: check-move-test
+      run: |
+        if grep -Fxq "move-test" ${{github.event.comment.body}}; then
+          echo "move-test found"
+          exit 0
+        else
+          echo "move-test not found"
+          exit 1
+    - name: Get column id
+      if: steps.check-move-test.outputs.exit-code == 0
+      run: |
+        column_id=$(curl -H "Authorization: token ${{secrets.GITHUB_TOKEN}}" https://api.github.com/projects/columns/${{secrets.TEST_COLUMN_ID}}/cards -s | jq '.[].id')
+        echo "::set-output name=column_id::$column_id"
+    - name: Move issue to test column
+      if: steps.check-move-test.outputs.exit-code == 0
+      run: |
+        curl -X POST -H "Authorization: token ${{secrets.GITHUB_TOKEN}}" -d '{"column_id":"'${{steps.get-column-id.outputs.column_id}}'"}' https://api.github.com/projects/columns/cards/${{github.event.issue.number}},
