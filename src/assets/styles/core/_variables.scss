@@ -38,6 +38,7 @@ $light: (
   --grey-400: #{map-get($light, grey-400)};
   --grey-300: #{map-get($light, grey-300)};
   --grey-200: #{map-get($light, grey-200)};
+  --selection: var(--contrast-primary)
 }
 
 // Dark mode

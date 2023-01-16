@@ -54,7 +54,7 @@ body.light {
 
 /* Pseudo-classes */
 ::selection {
-  background: var(--contrast-primary);
+  background: var(--selection);
   color: var(--dark);
 }
 

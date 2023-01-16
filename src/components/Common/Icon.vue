@@ -41,8 +41,6 @@ const props = defineProps({
   }
 })
 
-console.log(props.name)
-
 const AsyncComp = defineAsyncComponent(() =>
     import(`../Icons/${props.name}.vue`)
 )
