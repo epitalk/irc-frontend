@@ -26,19 +26,16 @@ Help() {
 # Arguments: $2 = ticket number
 MergeIssueInMain() {
   destination_branch="main"
-  # Get the current git branchddd
+  # Get the current git branch
   current_branch=$(git rev-parse --abbrev-ref HEAD)
   # Get first character branch name for get ticket number
   ticket_number=${current_branch:0:1}
   gh issue close "$ticket_number"
-  echo "pull origin $destination_branch"
+
   git pull origin "$destination_branch"
-  echo "checkout $destination_branch"
   git checkout "$destination_branch"
-  echo "merge $current_branch"
   git merge "$current_branch"
   echo "push origin $destination_branch"
-  git push origin "$destination_branch"
 }
 
 # Fonction for create branch for ticket and fetch, checkout this branch
