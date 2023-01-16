@@ -13,7 +13,7 @@
         </li>
       </ul>
     </div>
-    <input class="no-style w-full" ref="input" v-model="content" type="text" :placeholder="placeholder" @input="onComplete">
+    <input class="no-style w-full" ref="input" v-model="content" type="text" :placeholder="props.placeholder" @input="onComplete">
   </div>
 </template>
 
