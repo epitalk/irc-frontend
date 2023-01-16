@@ -4,7 +4,7 @@
 }
 
 .message-send {
-  align-self: flex-start;
+  display: flex;
 
   & .message-content {
     background: var(--contrast-primary);
@@ -16,6 +16,7 @@
 
 .message-receive {
   align-self: flex-end;
+  justify-content: end;
 
   & .message-content {
     background: var(--grey-400);
