@@ -13,7 +13,7 @@
             large
         />
       </ul>
-      <div class="d-flex gap-1 bt-1 p-1 center-y">
+      <div class="d-flex gap-1 bt-1 center-y" style="padding: 18px 8px;">
         <Avatar src="/images/anonyme-user.jpg" alt="username"/>
         <span>username</span>
       </div>

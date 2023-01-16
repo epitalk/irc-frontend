@@ -1,6 +1,6 @@
 <template>
   <div v-if="props.message" class="d-grid gap-2 col-auto col-2 row-fit" :class="`message-${props.message.isUserMessage ? 'send' : 'receive'}`">
-    <Avatar>N</Avatar>
+    <Avatar online>N</Avatar>
     <div class="p-2 d-flex center-y message-content">
       {{props.message.content}}
     </div>
