@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from "@/pages/HomePage.vue"
-import BrandingPage from "@/pages/BrandingPage.vue"
+import DesignSystemPage from "@/pages/DesignSystemPage.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +11,9 @@ const router = createRouter({
       component: HomePage
     },
     {
-      path: '/branding',
-      name: 'branding',
-      component: BrandingPage
+      path: '/design-system',
+      name: 'designSystem',
+      component: DesignSystemPage
     }
   ]
 })
