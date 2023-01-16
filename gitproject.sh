@@ -31,9 +31,13 @@ MergeIssueInMain() {
   # Get first character branch name for get ticket number
   ticket_number=${current_branch:0:1}
   gh issue close "$ticket_number"
+  echo "pull origin $destination_branch"
   git pull origin "$destination_branch"
+  echo "checkout $destination_branch"
   git checkout "$destination_branch"
-  git merge "$current_branch" -m "Merge branch $current_branch into $destination_branch"
+  echo "merge $current_branch"
+  git merge "$current_branch"
+  echo "push origin $destination_branch"
   git push origin "$destination_branch"
 }
 
