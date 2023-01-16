@@ -25,7 +25,7 @@ Help() {
 # Fonction for merge issue branch into main branch, change status to close and move to done column
 # Arguments: $2 = ticket number
 MergeIssueInMain() {
-  destination_branch="main"
+  destination_branch="develop"
   # Get the current git branch
   current_branch=$(git rev-parse --abbrev-ref HEAD)
   # Get first character branch name for get ticket number
@@ -35,7 +35,7 @@ MergeIssueInMain() {
   git pull origin "$destination_branch"
   git checkout "$destination_branch"
   git merge "$current_branch"
-  echo "push origin $destination_branch"
+  git push origin "$destination_branch"
 }
 
 # Fonction for create branch for ticket and fetch, checkout this branch
