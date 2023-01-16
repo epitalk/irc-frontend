@@ -60,7 +60,7 @@ CreateBranch() {
 
     git fetch origin
     # Checkout to the created branch
-    git checkout "$branch_name"
+    git checkout "feature/$branch_name"
 
     echo "branch $branch_name created and checkout successfully"
     exit 0
