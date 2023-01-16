@@ -31,7 +31,7 @@ MergeIssueInMain() {
   ticket_number=${current_branch:0:1}
   gh issue close "$ticket_number"
   git checkout main
-  git merge "$current_branch"
+  git merge "$current_branch" -m "Merge branch $current_branch into main"
   git push
 }
 
