@@ -25,16 +25,14 @@ Help() {
 # Fonction for merge issue branch into main branch, change status to close and move to done column
 # Arguments: $2 = ticket number
 MergeIssueInMain() {
-  if [ "$2" ]; then
-    echo "pk"
-    exit 0
-  fi
-  echo "Please specify allows ticket number, sh gitproject.sh done [ticket_number] ( example: sh gitproject.sh done 654 )"
-#  # Get the current git branch
-#  current_branch=$(git rev-parse --abbrev-ref HEAD)
-#  git checkout test
-#  git pull origin test
-#  git merge $current_branch
+  # Get the current git branch
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+  # Get first character branch name for get ticket number
+  ticket_number=${current_branch:0:1}
+  gh issue close "$ticket_number"
+  git checkout main
+  git pull origin main
+  git merge "$current_branch"
 }
 
 # Fonction for create branch for ticket and fetch, checkout this branch
@@ -86,4 +84,4 @@ if [ $OPTIND -eq 1 ] && [ $# -eq 0 ]; then echo "An argument is required, please
 
 # Enable options
 if [ "$1" == "create" ]; then CreateBranch "$1" "$2"; fi
-if [ "$1" == "done" ]; then MergeIssueInMain "$1" "$2"; fi
+if [ "$1" == "done" ]; then MergeIssueInMain; fi
