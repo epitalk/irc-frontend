@@ -24,8 +24,8 @@ Help() {
 
 # Fonction for merge issue branch into main branch, change status to close and move to done column
 # Arguments: $2 = ticket number
-MergeIssueInMain() {
-  destination_branch="testing"
+MergeIssueInDevelop() {
+  destination_branch="develop"
   # Get the current git branch
   current_branch=$(git rev-parse --abbrev-ref HEAD)
   # Get first character branch name for get ticket number
@@ -56,7 +56,7 @@ CreateBranch() {
     # Replace spaces with dashes and concatenate the issue number to the branch name to avoid filename issues
     branch_name=$2-${issue_title// /-}
     # Create the issue branch and link the branch to the GitHub issue
-    gh issue develop "$2" --name "$branch_name" --base "$branch_name"
+    gh issue develop "$2" --name "feature/$branch_name" --base "$branch_name"
 
     git fetch origin
     # Checkout to the created branch
@@ -87,4 +87,4 @@ if [ $OPTIND -eq 1 ] && [ $# -eq 0 ]; then echo "An argument is required, please
 
 # Enable options
 if [ "$1" == "create" ]; then CreateBranch "$1" "$2"; fi
-if [ "$1" == "done" ]; then MergeIssueInMain; fi
+if [ "$1" == "done" ]; then MergeIssueInDevelop; fi
