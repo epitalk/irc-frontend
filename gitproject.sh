@@ -35,7 +35,7 @@ MergeIssueInDevelop() {
   git pull origin "$destination_branch"
   git checkout "$destination_branch"
   git merge "$current_branch"
-  echo "push origin $destination_branch"
+  git push origin "$destination_branch"
 }
 
 # Fonction for create branch for ticket and fetch, checkout this branch
