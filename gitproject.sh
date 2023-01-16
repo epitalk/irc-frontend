@@ -31,8 +31,8 @@ MergeIssueInMain() {
   ticket_number=${current_branch:0:1}
   gh issue close "$ticket_number"
   git checkout main
-  git pull origin main
   git merge "$current_branch"
+  git push
 }
 
 # Fonction for create branch for ticket and fetch, checkout this branch
