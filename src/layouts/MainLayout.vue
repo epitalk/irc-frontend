@@ -1,7 +1,7 @@
 <template>
   <main class="w-full d-flex stretch">
     <Sidebar/>
-    <router-view></router-view>
+    <slot />
   </main>
 </template>
 
