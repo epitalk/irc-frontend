@@ -26,7 +26,7 @@ Help() {
 # Arguments: $2 = ticket number
 MergeIssueInMain() {
   destination_branch="main"
-  # Get the current git branch
+  # Get the current git branchddd
   current_branch=$(git rev-parse --abbrev-ref HEAD)
   # Get first character branch name for get ticket number
   ticket_number=${current_branch:0:1}
