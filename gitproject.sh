@@ -30,6 +30,7 @@ MergeIssueInDevelop() {
   current_branch=$(git rev-parse --abbrev-ref HEAD)
   # Get first character branch name for get ticket number
   ticket_number=${current_branch:0:1}
+  echo "gh issue close $ticket_number"
   gh issue close "$ticket_number"
 
   git pull origin "$destination_branch"
