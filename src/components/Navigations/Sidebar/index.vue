@@ -34,5 +34,5 @@ const route = useRoute()
 
 /*STORE*/
 const userStore = useUserStore()
-const username = ref(userStore.user.username || 'unknown')
+const username = ref(userStore.user?.username || 'unknown')
 </script>
