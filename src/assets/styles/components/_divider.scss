@@ -18,3 +18,10 @@
 .separator:not(.empty)::after {
   margin-left: 16px;
 }
+
+.divider {
+  width: 100%;
+  display: flex;
+  background: var(--grey-200);
+  height: 1px;
+}
