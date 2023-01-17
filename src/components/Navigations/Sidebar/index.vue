@@ -15,7 +15,7 @@
       </ul>
       <div class="d-flex gap-1 bt-1 center-y" style="padding: 18px 8px;">
         <Avatar src="/images/anonyme-user.jpg" alt="username"/>
-        <span>username</span>
+        <span>{{ username }}</span>
       </div>
     </div>
   </nav>
@@ -26,6 +26,13 @@ import SideBarLink from "@/components/Navigations/Sidebar/SideBarLink.vue"
 import Avatar from "@/components/Common/Avatar.vue"
 import items from "./items.json"
 import { useRoute } from "vue-router";
+import { useUserStore } from "@/stores/user.store";
+import { ref } from "vue";
 
+/*HOOKS*/
 const route = useRoute()
+
+/*STORE*/
+const userStore = useUserStore()
+const username = ref(userStore.user?.username || 'unknown')
 </script>

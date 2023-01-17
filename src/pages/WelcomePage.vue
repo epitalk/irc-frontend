@@ -5,7 +5,7 @@
 
       <span class="divider"/>
 
-      <UsernameForm/>
+      <UsernameForm @submit="handleSubmit"/>
     </div>
   </section>
 </template>
@@ -13,21 +13,22 @@
 
 <script lang="ts" setup>
 import { SITE_NAME } from "@/env"
-import { ref } from "vue";
 import UsernameForm from "@/components/Forms/UsernameForm.vue"
+import { useUserStore } from "@/stores/user.store";
+import { useRouter } from "vue-router";
 /*META*/
 document.title = `Bienvenue | ${SITE_NAME}`
 
-/*REFS*/
-const content = ref('')
+/*HOOKS*/
+const router = useRouter()
+
+/*STORE*/
+const userStore = useUserStore()
 
 /*METHODS*/
-const onComplete = () => {
-  console.log("onComplete")
-}
-
-const handleSubmit = () => {
-  console.log("handleSubmit")
+const handleSubmit = async (username: string) => {
+  userStore.setUsername(username)
+  await router.push('/')
 }
 </script>
 

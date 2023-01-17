@@ -28,10 +28,10 @@ MergeIssueInDevelop() {
   destination_branch="develop"
   # Get the current git branch
   current_branch=$(git rev-parse --abbrev-ref HEAD)
-  # Get first character branch name for get ticket number
-  ticket_number=${current_branch:0:1}
-  gh issue close "$ticket_number"
+  # Get number character branch name for get ticket number
+  ticket_number=$(echo "$current_branch" | grep -o '[0-9]\+')
 
+  gh issue close "$ticket_number"
   git pull origin "$destination_branch"
   git checkout "$destination_branch"
   git merge "$current_branch"
