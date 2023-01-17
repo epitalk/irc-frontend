@@ -24,5 +24,5 @@ import Messages from "@/components/Messaging/Messages.vue"
 import Avatar from "@/components/Common/Avatar.vue"
 import Icon from "@/components/Common/Icon.vue"
 import messages from "@/data/messages.json"
-import ChatInput from "@/components/Forms/ChatInput.vue"
+import ChatInput from "@/components/Fields/ChatInput.vue"
 </script>
