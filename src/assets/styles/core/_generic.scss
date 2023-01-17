@@ -19,6 +19,10 @@ body.light {
   overflow: hidden auto;
 }
 
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
 .pointer-events-none {
   pointer-events: none;
 }
@@ -34,6 +38,8 @@ body.light {
     color: var(--light, #fff);
   }
 }
+
+
 
 .ellipsis {
   white-space: nowrap;
