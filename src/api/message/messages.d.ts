@@ -5,7 +5,7 @@ export interface Message extends TimeStamps {
     id: number,
     content: string,
     channel_id: number,
-    user_id: number,
+    username: string
     user: User,
     isUserMessage: boolean
 }

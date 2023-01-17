@@ -1,6 +1,6 @@
 <template>
   <div v-if="props.message" class="d-grid gap-2 col-auto col-2 row-fit" :class="`message-${props.message.username === username ? 'send' : 'receive'}`">
-    <Avatar online>N</Avatar>
+    <Avatar online>{{ firstLetter }}</Avatar>
     <div class="px-2 py-1 d-flex center-y message-content">
       {{props.message.content}}
     </div>
@@ -22,4 +22,7 @@ const props = defineProps({
 /*STORE*/
 const userStore = useUserStore()
 const username = ref(userStore.user?.username)
+
+/*REFS*/
+const firstLetter = ref(props.message?.username ? props.message?.username[0]: 'U')
 </script>

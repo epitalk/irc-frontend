@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from "@/pages/HomePage.vue"
+import ChatPage from "@/pages/ChatPage.vue"
 import DesignSystemPage from "@/pages/DesignSystemPage.vue"
 import WelcomePage from "@/pages/WelcomePage.vue"
 import NotFound from "@/pages/NotFound.vue"
 import { useUserStore } from "@/stores/user.store";
+import { useChannelStore } from "@/stores/channel.store";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,7 +12,15 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: HomePage,
+            component: ChatPage,
+            meta: {
+                layout: "MainLayout"
+            }
+        },
+        {
+            path: '/channel/:channel',
+            name: 'channel',
+            component: ChatPage,
             meta: {
                 layout: "MainLayout"
             }
@@ -51,6 +60,20 @@ router.beforeEach(async (to) => {
 
     if (!userStore.user?.username && !routesWithUsernameNotRequired.includes(to.path)) {
         await router.push('/welcome')
+    }
+
+    /*Middleware current channel*/
+    const channelStore = useChannelStore()
+    if (to.path === '/'){
+        channelStore.setCurrentChannel('general')
+    }
+
+    if (to.path.includes('channel')){
+        const regex = /(?<=channel\/).*$/g;
+        const matchs = to.path.match(regex);
+        if (matchs){
+            channelStore.setCurrentChannel(matchs[0])
+        }
     }
 });
 

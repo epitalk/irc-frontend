@@ -9,6 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import { SITE_NAME } from "@/env";
+import { SITE_NAME } from "@/utils/env";
 document.title = `Page Introuvable | ${SITE_NAME}`
 </script>

@@ -12,7 +12,7 @@
 
 
 <script lang="ts" setup>
-import { MERCURE_URL, SITE_NAME } from "@/env";
+import { MERCURE_URL, SITE_NAME } from "@/utils/env";
 import UsernameForm from "@/components/Forms/UsernameForm.vue"
 import { useUserStore } from "@/stores/user.store";
 import { useRouter } from "vue-router";
