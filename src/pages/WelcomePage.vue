@@ -12,10 +12,11 @@
 
 
 <script lang="ts" setup>
-import { SITE_NAME } from "@/env"
+import { MERCURE_URL, SITE_NAME } from "@/env";
 import UsernameForm from "@/components/Forms/UsernameForm.vue"
 import { useUserStore } from "@/stores/user.store";
 import { useRouter } from "vue-router";
+import axios from "axios";
 /*META*/
 document.title = `Bienvenue | ${SITE_NAME}`
 
@@ -28,6 +29,9 @@ const userStore = useUserStore()
 /*METHODS*/
 const handleSubmit = async (username: string) => {
   userStore.setUsername(username)
+  // await axios.post(MERCURE_URL, {machin: "biudle"}).then(e => {
+  //   console.log(e);
+  // })
   await router.push('/')
 }
 </script>

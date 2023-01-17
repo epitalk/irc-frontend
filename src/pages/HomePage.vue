@@ -5,14 +5,15 @@
         <div class="d-flex center-y gap-2">
           <Avatar borderRadius="12px"
                   size="40px"
-                  online>NA</Avatar>
+                  online>NA
+          </Avatar>
           <h6>conversion name</h6>
         </div>
-        <Icon name="more-vertical"/>
+        <Icon name="more-vertical" />
       </header>
-      <Messages :messages="messages"/>
+      <Messages :messages="messages" />
       <div class="bg-grey-500 p-2 d-flex center-x bt-1">
-        <ChatInput/>
+        <ChatInput @addNewMessage="addNewMessage" />
       </div>
     </div>
   </section>
@@ -20,9 +21,54 @@
 
 
 <script lang="ts" setup>
-import Messages from "@/components/Messaging/Messages.vue"
-import Avatar from "@/components/Common/Avatar.vue"
-import Icon from "@/components/Common/Icon.vue"
-import messages from "@/data/messages.json"
-import ChatInput from "@/components/Fields/ChatInput.vue"
+import Messages from "@/components/Messaging/Messages.vue";
+import Avatar from "@/components/Common/Avatar.vue";
+import Icon from "@/components/Common/Icon.vue";
+import ChatInput from "@/components/Fields/ChatInput.vue";
+import { ref, watch } from "vue";
+import { API_URL, MERCURE_URL } from "@/env";
+import axios from "axios";
+import type { Message as MessageType } from "@/api/message/messages";
+import { useUserStore } from "@/stores/user.store";
+
+/*STORE*/
+const userStore = useUserStore();
+
+/*MERCURE SSE*/
+const messages = ref([] as MessageType[]);
+
+/*Messages list*/
+const url = new URL(MERCURE_URL);
+url.searchParams.append("topic", "general");
+const eventSource = new EventSource(url, { withCredentials: true });
+eventSource.onmessage = (e) => messages.value.push(JSON.parse(e.data).message);
+
+
+/*Topic list*/
+const urlTopics = new URL(MERCURE_URL);
+urlTopics.searchParams.append("topic", "topics");
+const eventSourceTopics = new EventSource(urlTopics, { withCredentials: true });
+eventSourceTopics.onmessage = (e) => {
+  console.log(e.data);
+};
+
+
+/* Fix firefox warning */
+window.addEventListener("beforeunload", () => eventSource.close());
+
+/*METHODS*/
+const addNewMessage = (message: string) => {
+  axios.post(API_URL + "/chat/public", {
+    message: {
+      username: userStore.user?.username,
+      content: message
+    }
+  });
+};
+
+/*WATCHERS*/
+watch(() => messages.value, (value) => {
+  console.log(value);
+}, { deep: true });
+
 </script>
