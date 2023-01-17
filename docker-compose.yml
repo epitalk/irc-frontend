@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  vue:
+    image: shortpoet/vite
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    working_dir: /usr/src/app
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: yarn vite
