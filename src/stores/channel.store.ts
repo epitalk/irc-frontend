@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
+import type { Messages } from "@/types/message";
 
 export const useChannelStore = defineStore('channelStore', {
     state: () => ({
         channels: [] as string[],
+        messages: {} as Messages,
         currentChannel: ''
     }),
     actions: {

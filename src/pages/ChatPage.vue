@@ -8,9 +8,9 @@
         <Icon name="more-vertical" />
       </header>
 
-      <Messages :messages="messages[channelStore.currentChannel]" />
+      <Messages :messages="channelStore.messages[channelStore.currentChannel]" />
       <div class="bg-grey-500 p-2 d-flex center-x bt-1">
-        <ChatInput @addNewMessage="addNewMessage" />
+        <ChatInput @addNewMessage="Sse.addChannelMessage" />
       </div>
     </div>
   </section>
@@ -21,59 +21,23 @@
 import Messages from "@/components/Messaging/Messages.vue";
 import Icon from "@/components/Common/Icon.vue";
 import ChatInput from "@/components/Fields/ChatInput.vue";
-import { ref, watch } from "vue";
-import { API_URL, MERCURE_URL } from "@/utils/env";
-import axios from "axios";
-import type { Message as MessageType } from "@/api/message/messages";
-import { useUserStore } from "@/stores/user.store";
+import { watch } from "vue";
 import { useChannelStore } from "@/stores/channel.store";
+import { Sse } from "@/services/Sse";
 
 /*STORE*/
-const userStore = useUserStore();
 const channelStore = useChannelStore()
 
-/*REFS*/
-const eventSource = ref(undefined as EventSource | undefined)
-
-/*MERCURE SSE*/
-const messages = ref({} as { [key: string]: MessageType[] });
-
 /*Messages list*/
-const getChannelMessages = () => {
-  if (eventSource.value){
-    eventSource.value.close()
-  }
-  const url = new URL(MERCURE_URL);
-  url.searchParams.append("topic", channelStore.currentChannel);
-  eventSource.value = new EventSource(url, { withCredentials: true });
-
-  eventSource.value.onmessage = (e: {data: string}) => {
-    if (!messages.value[channelStore.currentChannel]){
-      messages.value[channelStore.currentChannel] = []
-    }
-    messages.value[channelStore.currentChannel].push(JSON.parse(e.data).message)
-  }
-}
-
-getChannelMessages()
-
-/*METHODS*/
-const addNewMessage = (message: string) => {
-  axios.post(API_URL + "/chat/channel/" + channelStore.currentChannel, {
-    message: {
-      username: userStore.user?.username,
-      content: message
-    }
-  });
-};
+Sse.getChannelMessages()
 
 /*WATCHERS*/
-watch(() => messages.value, (value) => {
+watch(() => channelStore.messages.value, (value) => {
   console.log(value);
 }, { deep: true });
 
 watch(() => channelStore.currentChannel, () => {
-  getChannelMessages()
+  Sse.getChannelMessages()
 });
 
 
