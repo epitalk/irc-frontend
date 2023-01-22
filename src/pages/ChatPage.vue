@@ -7,7 +7,8 @@
         </div>
         <Icon name="more-vertical" />
       </header>
-      <Messages :messages="messages" />
+
+      <Messages :messages="messages[channelStore.currentChannel]" />
       <div class="bg-grey-500 p-2 d-flex center-x bt-1">
         <ChatInput @addNewMessage="addNewMessage" />
       </div>
@@ -31,18 +32,34 @@ import { useChannelStore } from "@/stores/channel.store";
 const userStore = useUserStore();
 const channelStore = useChannelStore()
 
+/*REFS*/
+const eventSource = ref(undefined as EventSource | undefined)
+
 /*MERCURE SSE*/
-const messages = ref([] as MessageType[]);
+const messages = ref({} as { [key: string]: MessageType[] });
 
 /*Messages list*/
-const url = new URL(MERCURE_URL);
-url.searchParams.append("topic", "general");
-const eventSource = new EventSource(url, { withCredentials: true });
-eventSource.onmessage = (e) => messages.value.push(JSON.parse(e.data).message);
+const getChannelMessages = () => {
+  if (eventSource.value){
+    eventSource.value.close()
+  }
+  const url = new URL(MERCURE_URL);
+  url.searchParams.append("topic", channelStore.currentChannel);
+  eventSource.value = new EventSource(url, { withCredentials: true });
+
+  eventSource.value.onmessage = (e: {data: string}) => {
+    if (!messages.value[channelStore.currentChannel]){
+      messages.value[channelStore.currentChannel] = []
+    }
+    messages.value[channelStore.currentChannel].push(JSON.parse(e.data).message)
+  }
+}
+
+getChannelMessages()
 
 /*METHODS*/
 const addNewMessage = (message: string) => {
-  axios.post(API_URL + "/chat/public", {
+  axios.post(API_URL + "/chat/channel/" + channelStore.currentChannel, {
     message: {
       username: userStore.user?.username,
       content: message
@@ -54,5 +71,12 @@ const addNewMessage = (message: string) => {
 watch(() => messages.value, (value) => {
   console.log(value);
 }, { deep: true });
+
+watch(() => channelStore.currentChannel, () => {
+  getChannelMessages()
+});
+
+
+
 
 </script>
