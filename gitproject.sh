@@ -135,6 +135,10 @@ ResetTestToPreprod() {
 # Arguments: $2 = ticket number
 CreateBranch() {
   if [ $2 ]; then
+    # Get Your github Username
+    github_username=$(gh api user -q .login)
+    # Assign user to issue
+    gh issue edit "$2" --add-assignee "$github_username"
     # Get the title of the issue using the gh command
     issue_title=$(gh issue view $2 --json title --jq .title)
     # remove special characters from issue_title
