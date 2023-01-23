@@ -1,6 +1,6 @@
 <template>
-  <div class="input d-flex center-y w-full gap-2">
-    <AutoComplete @addNewMessage="addNewMessage" placeholder="Envoyer un message à Brooklyn Simmons" :opened-picker="opened" :emojis="emojis.list" />
+  <div class="input d-flex center-y w-full gap-2 relative">
+    <AutoComplete @addNewMessage="addNewMessage" :placeholder="`Envoyer un message dans #${channelStore.currentChannel}`" :opened-picker="opened" :emojis="emojis.list" />
 <!--    <EmojiButton @click="open"/>-->
   </div>
 </template>
@@ -9,6 +9,10 @@
 import AutoComplete from "@/components/Emojis/AutoComplete.vue"
 import emojis from "@/data/emojis.json"
 import { ref } from "vue";
+import { useChannelStore } from "@/stores/channel.store";
+/*STORE*/
+const channelStore = useChannelStore()
+
 
 /*REFS*/
 const opened = ref(false)

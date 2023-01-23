@@ -20,8 +20,10 @@
     <h2 class="mb-2">Sidebar</h2>
     <h2 class="mb-2">Messages</h2>
     <Messages :messages="messages"/>
+
+
     <ChatInput/>
-    <CommandMenu/>
+
   </section>
 </template>
 
@@ -33,5 +35,4 @@ import Icon from "@/components/Common/Icon.vue"
 import Messages from "@/components/Messaging/Messages.vue"
 import messages from "@/data/messages.json"
 import ChatInput from "@/components/Fields/ChatInput.vue"
-import CommandMenu from "@/components/Menus/CommandMenu.vue"
 </script>
