@@ -40,7 +40,7 @@ Help() {
 # Arguments: $2 = ticket number
 PrIssueToPreprod() {
   if [ $2 ]; then
-    preprod_branch=preprod
+    preprod_branch=main
     # Get branch name with ticket number
     issue_branch_name=$(git branch -r | grep $2 | sed 's/origin\///')
 
