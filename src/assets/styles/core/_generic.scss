@@ -10,6 +10,10 @@ body {
   word-break: break-word;
 }
 
+.relative {
+  position: relative;
+}
+
 body.light {
   background: var(--light);
 }

@@ -1,5 +1,5 @@
 <template>
-  <section class="mx-4">
+  <section class="mx-4" style="margin-bottom: 200px;">
     <h1 class="mb-2">Branding</h1>
 
     <h2 class="mb-2">Avatar</h2>
@@ -20,7 +20,10 @@
     <h2 class="mb-2">Sidebar</h2>
     <h2 class="mb-2">Messages</h2>
     <Messages :messages="messages"/>
+
+
     <ChatInput/>
+
   </section>
 </template>
 
