@@ -34,6 +34,7 @@ const handleSubmit = async (username: string) => {
   // })
   await router.push('/')
 }
+
 </script>
 
 <style lang="scss" scoped>
