@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BlankLayout from './BlankLayout.vue'
-import { markRaw, ref, watch } from 'vue'
+import { markRaw, ref, watch } from "vue";
 import { useRoute } from 'vue-router'
 const layout = ref()
 const route = useRoute()
