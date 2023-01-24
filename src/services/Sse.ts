@@ -7,7 +7,7 @@ import { Notyf } from "notyf";
 
 export class Sse {
   private static eventSource: EventSource | undefined = undefined as EventSource | undefined;
-  private static notyf = new Notyf();
+  private static notyf = new Notyf({ position: { x: "right", y: "top" } });
 
   static createChannel = async (channelName: string) => {
     const channelStore = useChannelStore();
