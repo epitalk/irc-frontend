@@ -1,56 +1,31 @@
 <template>
   <Form @submit="emitMessage" style="flex: 1">
-    <div :class="{ 'opacity-0 pointer-events-none': !autocomplete.show }" class="emoji__autocomplete">
-      <p class="emoji__autocomplete-result">{{ autocomplete.results.length }} résultats</p>
-      <ul class="emoji__autocomplete-list">
-
-        <li v-for="(result, r) in autocomplete.results.slice(0, 8)" :key="r" class="emoji__autocomplete-item"
-            @click="onClick(result)">
-          <p class="emoji__autocomplete-emoji">{{ result.emoji }}</p>
-          <p class="emoji__autocomplete-command">
-            {{ `:${result.name.replace(/\s/g, "")}:` }}
-          </p>
-        </li>
-      </ul>
+    <div class="command__suggestions" v-if="openCommandMenu && commands.length">
+      <CommandMenu :commands="commands" :current-command="commandIndex" @handleSelect="handleSelect" />
     </div>
-
-    <div class="command__suggestions" @keydown="nextItem" v-if="openCommandMenu && commands.length">
-      <CommandMenu v-model:content="content" :commands="commands" :current-command="currentCommand"
-                   @handleSelect="handleSelect" />
-    </div>
-
+    {{ openCommandMenu }}
     <input class="no-style w-full" ref="input" v-model="content" @keyup="searchInCommands" type="text"
-           :placeholder="props.placeholder"
-           @input="onComplete">
+           :placeholder="props.placeholder">
   </Form>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
-import emojisJson from "@/data/emojis.json";
-import commandsJson from "@/data/commands.json";
-import type { Emojis } from "@/types/emojis";
 import { Form } from "vee-validate";
 import CommandMenu from "@/components/Menus/CommandMenu.vue";
+import { Command } from "@/services/Command";
 
 
 /*PROPS*/
 const props = defineProps({
   value: { type: String, default: null },
-  placeholder: { type: String },
-  openedPicker: { type: Boolean, required: true }
+  placeholder: { type: String }
 });
 
 /*REFS*/
-const autocomplete = ref({
-  show: false,
-  results: [] as Emojis[] | never[]
-});
-
-const currentCommand = ref(1);
+const commandIndex = ref(1);
 const openCommandMenu = ref(false);
-const commands = ref(commandsJson);
-const emojis = ref(emojisJson);
+const commands = ref(Command.commands);
 const content = ref(props.value);
 
 /*WATCHERS*/
@@ -58,100 +33,77 @@ watch(() => props.value, (value) => {
   content.value = value;
 });
 
-watch(() => props.openedPicker, (value) => {
-  if (value) {
-    autocomplete.value.show = false;
-  }
-});
-
 /*EMIT*/
 const emit = defineEmits(["close", "change", "addNewMessage"]);
 
 
 /*Focus input*/
-const input = ref(null as HTMLInputElement | null)
+const input = ref(null as HTMLInputElement | null);
 onMounted(() => {
-  if(input.value){
-    input.value.focus()
+  if (input.value) {
+    input.value.focus();
   }
-})
+});
 
 /*METHODS*/
 const handleSelect = (e: Event, val: string) => {
   if (e) {
     e.preventDefault();
   }
-
-  content.value = (commandsJson.find(command => command.command === val)?.command || "");
+  const command = Command.commands.find(command => command.command === val);
+  content.value = (command?.command || "");
   openCommandMenu.value = false;
 };
 
 const nextItem = (e: KeyboardEvent) => {
   if (e.code === "ArrowUp") {
     e.preventDefault();
-    if (currentCommand.value <= 1) {
-      currentCommand.value = commands.value.length;
+    if (commandIndex.value <= 1) {
+      commandIndex.value = commands.value.length;
     } else {
-      currentCommand.value--;
+      commandIndex.value--;
     }
   } else if (e.code === "ArrowDown") {
-    if (currentCommand.value >= commands.value.length) {
-      currentCommand.value = 1;
+    if (commandIndex.value >= commands.value.length) {
+      commandIndex.value = 1;
     } else {
-      currentCommand.value++;
+      commandIndex.value++;
     }
   }
 };
 
 const searchInCommands = (e: KeyboardEvent) => {
+  const commandsFinds = Command.commands.filter(e => e.command.includes(content.value));
 
-  if (e.key === "/") {
-    openCommandMenu.value = true;
-  }
+  openCommandMenu.value = !!(content.value && content.value[0] === "/" && commandsFinds.length);
 
   if (e.code == "ArrowDown" || e.code === "ArrowUp") {
     return nextItem(e);
   }
 
   if (e.code === "Enter" && commands.value.length && openCommandMenu.value) {
-    return handleSelect(e, commands.value[currentCommand.value - 1]?.command);
+    return handleSelect(e, commands.value[commandIndex.value - 1]?.command);
   }
-  currentCommand.value = 0;
 
-  commands.value = commandsJson.filter(e => e.command.includes(content.value));
+  if (content.value && content.value[0] !== "/") {
+    commandIndex.value = 0;
+  }
+
+
+  commands.value = commandsFinds;
 };
 
 const emitMessage = () => {
-  if (openCommandMenu.value) return;
-  emit("addNewMessage", content.value);
-  content.value = "";
-};
-const onComplete = (event: { target: { value: string } }) => {
-  const { value } = event.target;
-  const lastWord = event.target.value.split(" ").pop()?.toLowerCase();
-
-  if (lastWord && lastWord.startsWith(":") && lastWord.length > 3) {
-    autocomplete.value = {
-      results: emojis.value.list.filter(({ name }) => name.replace(/\s/g, "").toLowerCase().includes(lastWord.replace(/:/g, ""))),
-      show: true
-    };
-    emit("close");
-  } else {
-    autocomplete.value = {
-      results: [],
-      show: false
-    };
+  if (content.value.trim()[0] === "/" && !openCommandMenu.value) {
+    const args = content.value.split(" ");
+    // remove first argument of args => command name
+    args.shift()
+    Command.executeCommand(commandIndex.value - 1, ...args);
   }
-  emit("change", value);
-};
+  if (openCommandMenu.value || content.value.trim() === "") return;
 
-const onClick = (emoji: Emojis) => {
-  // const value = content.value.toString().split(' ').pop()?.join(' ')
-  const value = content.value.toString().split(" ").pop();
-  // emit('change', `${value} ${emoji.emoji}`)
-  // emit('send', emoji)
-  // autocomplete.value.show = false
-  // this.$refs.input.focus()
+  emit("addNewMessage", content.value.trim());
+  content.value = "";
 };
 </script>
 
@@ -159,12 +111,11 @@ const onClick = (emoji: Emojis) => {
 .command__suggestions {
   background: var(--dark);
   margin-top: 8px;
-  bottom: 52px;
+  bottom: 74px;
   left: -4px;
   position: absolute;
   width: 100%;
   border: 1px solid var(--grey-200);
   z-index: 10;
-
 }
 </style>
