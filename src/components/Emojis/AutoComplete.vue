@@ -13,7 +13,7 @@
 import { onMounted, ref, watch } from "vue";
 import { Form } from "vee-validate";
 import CommandMenu from "@/components/Menus/CommandMenu.vue";
-import { Command } from "@/services/Command";
+import { CommandService } from "@/services/CommandService";
 
 
 /*PROPS*/
@@ -25,7 +25,7 @@ const props = defineProps({
 /*REFS*/
 const commandIndex = ref(0);
 const openCommandMenu = ref(false);
-const commands = ref(Command.commands);
+const commands = ref(CommandService.commands);
 const content = ref(props.value);
 
 /*WATCHERS*/
@@ -50,7 +50,7 @@ const handleSelect = (e: Event, val: string) => {
   if (e) {
     e.preventDefault();
   }
-  const command = Command.commands.find(command => command.command === val);
+  const command = CommandService.commands.find(command => command.command === val);
   content.value = (command?.command || "");
   openCommandMenu.value = false;
 };
@@ -73,7 +73,7 @@ const nextItem = (e: KeyboardEvent) => {
 };
 
 const searchInCommands = (e: KeyboardEvent) => {
-  const commandsFinds = Command.commands.filter(e => e.command.includes(content.value));
+  const commandsFinds = CommandService.commands.filter(e => e.command.includes(content.value));
 
   openCommandMenu.value = !!(content.value && content.value[0] === "/" && commandsFinds.length);
 
@@ -97,8 +97,8 @@ const emitMessage = () => {
   if (content.value.trim()[0] === "/" && !openCommandMenu.value) {
     const args = content.value.split(" ");
     const command = args.shift()
-    const index = Command.commands.findIndex(e => e.command === command)
-    Command.executeCommand(index, ...args);
+    const index = CommandService.commands.findIndex(e => e.command === command)
+    CommandService.executeCommand(index, ...args);
     content.value = "";
   }
   if (content.value.trim()[0] === "/" || openCommandMenu.value || content.value.trim() === "") return;

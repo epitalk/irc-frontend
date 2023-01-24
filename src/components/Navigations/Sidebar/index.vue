@@ -9,10 +9,10 @@
       </div>
       <ul class="d-flex column center-y px-1 py-2 h-full gap-2 overflow-y-auto">
         <side-bar-link
-            :class="{ active: channelStore.currentChannel === channel }"
+            :class="{ active: channelStore.currentChannel === channel.name }"
             v-for="channel in channels"
             :key="channel"
-            :item="channel"
+            :item="channel.name"
             large
         />
       </ul>

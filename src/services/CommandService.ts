@@ -1,12 +1,11 @@
-import { Sse } from "@/services/Sse";
+import { SseService } from "@/services/SseService";
 import { useChannelStore } from "@/stores/channel.store";
 import { Notyf } from "notyf";
-import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.store";
+import { ChannelService } from "@/services/ChannelService";
 
-export class Command {
+export class CommandService {
   static notyf = new Notyf({ position: { x: "right", y: "top" } });
-  static router = useRouter()
   static commands = [
     {
       command: "/join",
@@ -97,11 +96,12 @@ export class Command {
 
   static joinChannel(channelName: string) {
     const channelStore = useChannelStore();
-    if (channelName === "topics" || !channelStore.channels.includes(channelName)) {
+
+    if (channelName === "topics" || !ChannelService.findChannelByName(channelName)) {
       this.notyf.error(`Le channel ${channelName} n'existe pas !`);
       return undefined;
     }
-    Sse.connectToTopic(channelName);
+    SseService.connectToTopic(channelName);
     channelStore.setCurrentChannel(channelName);
   }
 
@@ -122,7 +122,7 @@ export class Command {
 
   static async createChannel(channelName: string | undefined) {
     if (channelName) {
-      await Sse.createChannel(channelName)
+      await SseService.createChannel(channelName)
     }
   }
 
@@ -135,7 +135,7 @@ export class Command {
   }
 
   static leaveChannel(channelName: string) {
-    Sse.leaveChannel(channelName)
+    SseService.leaveChannel(channelName)
     this.joinChannel("general")
   }
 }

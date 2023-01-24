@@ -10,7 +10,7 @@
 
       <Messages :messages="channelStore.messages[channelStore.currentChannel]" />
       <div class="bg-grey-500 p-2 d-flex center-x bt-1">
-        <ChatInput @addNewMessage="Sse.addChannelMessage" />
+        <ChatInput @addNewMessage="SseService.addChannelMessage" />
       </div>
     </div>
   </section>
@@ -23,13 +23,13 @@ import Icon from "@/components/Common/Icon.vue";
 import ChatInput from "@/components/Fields/ChatInput.vue";
 import { watch } from "vue";
 import { useChannelStore } from "@/stores/channel.store";
-import { Sse } from "@/services/Sse";
+import { SseService } from "@/services/SseService";
 
 /*STORE*/
 const channelStore = useChannelStore()
 
 /*Messages list*/
-Sse.getChannelMessages()
+SseService.getChannelMessages()
 
 /*WATCHERS*/
 watch(() => channelStore.messages.value, (value) => {
@@ -37,7 +37,7 @@ watch(() => channelStore.messages.value, (value) => {
 }, { deep: true });
 
 watch(() => channelStore.currentChannel, () => {
-  Sse.getChannelMessages()
+  SseService.getChannelMessages()
 });
 
 
