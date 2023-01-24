@@ -1,8 +1,8 @@
 <template>
   <ul class="command__menu">
     <li v-for="(command, index) in commands"
-        @mouseover="setCurrentCommand(index + 1)"
-        :class="{active: currentCommand === (index + 1)}"
+        @mouseover="setCurrentCommand(index)"
+        :class="{active: currentCommand === index}"
         :key="command.command" @click="(e) => handleSelect(e, command.command)">
       <span class="text-medium">{{ command.command }}</span>
       <span class="ml-1 text-contrast-70">{{ command.description }}</span>

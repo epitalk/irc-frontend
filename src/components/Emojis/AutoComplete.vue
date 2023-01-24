@@ -23,7 +23,7 @@ const props = defineProps({
 });
 
 /*REFS*/
-const commandIndex = ref(1);
+const commandIndex = ref(0);
 const openCommandMenu = ref(false);
 const commands = ref(Command.commands);
 const content = ref(props.value);
@@ -58,14 +58,14 @@ const handleSelect = (e: Event, val: string) => {
 const nextItem = (e: KeyboardEvent) => {
   if (e.code === "ArrowUp") {
     e.preventDefault();
-    if (commandIndex.value <= 1) {
-      commandIndex.value = commands.value.length;
+    if (commandIndex.value <= 0) {
+      commandIndex.value = commands.value.length - 1;
     } else {
       commandIndex.value--;
     }
   } else if (e.code === "ArrowDown") {
-    if (commandIndex.value >= commands.value.length) {
-      commandIndex.value = 1;
+    if (commandIndex.value >= commands.value.length - 1) {
+      commandIndex.value = 0;
     } else {
       commandIndex.value++;
     }
@@ -82,7 +82,7 @@ const searchInCommands = (e: KeyboardEvent) => {
   }
 
   if (e.code === "Enter" && commands.value.length && openCommandMenu.value) {
-    return handleSelect(e, commands.value[commandIndex.value - 1]?.command);
+    return handleSelect(e, commands.value[commandIndex.value]?.command);
   }
 
   if (content.value && content.value[0] !== "/") {
@@ -97,10 +97,12 @@ const emitMessage = () => {
   if (content.value.trim()[0] === "/" && !openCommandMenu.value) {
     const args = content.value.split(" ");
     // remove first argument of args => command name
-    args.shift()
-    Command.executeCommand(commandIndex.value - 1, ...args);
+    const command = args.shift()
+    const index = Command.commands.findIndex(e => e.command === command)
+    Command.executeCommand(index, ...args);
+    content.value = "";
   }
-  if (openCommandMenu.value || content.value.trim() === "") return;
+  if (content.value.trim()[0] === "/" || openCommandMenu.value || content.value.trim() === "") return;
 
   emit("addNewMessage", content.value.trim());
   content.value = "";
