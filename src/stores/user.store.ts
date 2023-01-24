@@ -8,7 +8,10 @@ export const useUserStore = defineStore('userStore', {
         user: userInLocalStorage ? JSON.parse(userInLocalStorage) : undefined as (UserStore | undefined)
     }),
     actions: {
-        setUsername(username: string) {
+        setUsername(username: string | undefined) {
+            if(!username){
+                return
+            }
             if(!this.user){
                 this.user = {}
             }
