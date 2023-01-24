@@ -63,6 +63,15 @@ export class Sse {
     }
   }
 
+  static leaveChannel(channelName: string){
+    const channelStore = useChannelStore();
+
+    if(!channelStore.channels.includes(channelName)){
+      return this.notyf.error(`Le channel ${channelName} n'existe pas !`)
+    }
+    this.eventSource?.close()
+  }
+
   static async addChannelMessage(message: string) {
     const channelStore = useChannelStore();
     const userStore = useUserStore();

@@ -1,9 +1,11 @@
 import { Sse } from "@/services/Sse";
 import { useChannelStore } from "@/stores/channel.store";
 import { Notyf } from "notyf";
+import { useRouter } from "vue-router";
 
 export class Command {
   static notyf = new Notyf();
+  static router = useRouter()
   static commands = [
     {
       command: "/join",
@@ -115,9 +117,7 @@ export class Command {
   }
 
   static async createChannel(channelName: string | undefined) {
-    console.log("PASSE 1");
     if (channelName) {
-      console.log("PASSE 2");
       await Sse.createChannel(channelName)
     }
   }
@@ -131,6 +131,7 @@ export class Command {
   }
 
   static leaveChannel(channelName: string) {
-    console.log("leaveChannel", channelName);
+    Sse.leaveChannel(channelName)
+    this.joinChannel("general")
   }
 }
