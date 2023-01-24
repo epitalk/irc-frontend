@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia';
 import type { Messages } from "@/types/message";
+import { SITE_NAME } from "@/utils/env";
 
 export const useChannelStore = defineStore('channelStore', {
     state: () => ({
         channels: [] as string[],
-        messages: {} as Messages,
+        messages: {
+            "general": []
+        } as Messages,
         currentChannel: ''
     }),
     actions: {
@@ -16,6 +19,10 @@ export const useChannelStore = defineStore('channelStore', {
         },
         addChannel(channel: string) {
             this.channels.push(channel)
+        },
+        addBotMessage(content: string){
+            //@ts-ignore
+            this.messages[this.currentChannel].push({username: SITE_NAME, content})
         }
     }
 });

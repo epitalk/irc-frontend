@@ -96,7 +96,6 @@ const searchInCommands = (e: KeyboardEvent) => {
 const emitMessage = () => {
   if (content.value.trim()[0] === "/" && !openCommandMenu.value) {
     const args = content.value.split(" ");
-    // remove first argument of args => command name
     const command = args.shift()
     const index = Command.commands.findIndex(e => e.command === command)
     Command.executeCommand(index, ...args);

@@ -1,4 +1,4 @@
-import { API_URL, MERCURE_URL } from "@/utils/env";
+import { adminChannels, API_URL, MERCURE_URL } from "@/utils/env";
 import { useChannelStore } from "@/stores/channel.store";
 import axios from "axios";
 import { useUserStore } from "@/stores/user.store";
@@ -11,7 +11,7 @@ export class Sse {
 
   static createChannel = async (channelName: string) => {
     const channelStore = useChannelStore();
-    if(channelStore.channels.includes(channelName) || channelName === "topics"){
+    if(channelStore.channels.includes(channelName) || adminChannels.includes(channelName)){
       return this.notyf.error(`Le channel ${channelName} existe déjà !`)
     }
     await Channel.createChannel(channelName)
