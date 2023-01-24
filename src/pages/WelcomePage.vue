@@ -3,37 +3,42 @@
     <div class="welcome-container w-full">
       <h1 class="mb-2 h2">Bienvenue sur {{ SITE_NAME }}</h1>
 
-      <span class="divider"/>
+      <span class="divider" />
 
-      <UsernameForm @submit="handleSubmit"/>
+      <UsernameForm @submit="handleSubmit" />
     </div>
   </section>
 </template>
 
 
 <script lang="ts" setup>
-import { MERCURE_URL, SITE_NAME } from "@/utils/env";
-import UsernameForm from "@/components/Forms/UsernameForm.vue"
+import { SITE_NAME } from "@/utils/env";
+import UsernameForm from "@/components/Forms/UsernameForm.vue";
 import { useUserStore } from "@/stores/user.store";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import { UserApi } from "@/api/user/user";
+import { Notyf } from "notyf";
 /*META*/
-document.title = `Bienvenue | ${SITE_NAME}`
+document.title = `Bienvenue | ${SITE_NAME}`;
 
 /*HOOKS*/
-const router = useRouter()
+const router = useRouter();
+const notyf = new Notyf({ position: { x: "right", y: "top" } });
 
 /*STORE*/
-const userStore = useUserStore()
+const userStore = useUserStore();
 
 /*METHODS*/
 const handleSubmit = async (username: string) => {
-  userStore.setUsername(username)
-  // await axios.post(MERCURE_URL, {machin: "biudle"}).then(e => {
-  //   console.log(e);
-  // })
-  await router.push('/')
-}
+
+  UserApi.create(username).then(async () => {
+    userStore.setUsername(username);
+    await router.push("/");
+    notyf.success(`Bienvenue sur ${SITE_NAME} 🥳`);
+  }).catch(() => {
+    notyf.error("Un utilisateur utilise déjà ce nom d'utilisateur.");
+  });
+};
 
 </script>
 

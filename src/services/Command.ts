@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.store";
 
 export class Command {
-  static notyf = new Notyf();
+  static notyf = new Notyf({ position: { x: "right", y: "top" } });
   static router = useRouter()
   static commands = [
     {
