@@ -70,7 +70,7 @@ PrIssueToPreprod() {
     pr_title=${pr_title//[^a-zA-Z0-9 ]/}
 
     # Create a pull request from the issue branch to the target branch (preprod)
-    gh pr create --base preprod --head $issue_branch_name -t "$2 $pr_title" -b ""
+    gh pr create --base $preprod_branch --head $issue_branch_name -t "$2 $pr_title" -b ""
 
     # Add comment to issue
     comment="$date - create pull request branch $issue_branch_name to $preprod_branch - $github_name"
