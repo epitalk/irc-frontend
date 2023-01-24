@@ -2,7 +2,10 @@
   <nav class="sidebar expand">
     <div class="d-flex column between h-full">
       <div class="p-2 bb-1 w-full">
-        <Logo :size="28" large/>
+        <router-link to="/">
+          <Logo :size="28" large/>
+        </router-link>
+
       </div>
       <ul class="d-flex column center-y px-1 py-2 h-full gap-2 overflow-y-auto">
         <side-bar-link

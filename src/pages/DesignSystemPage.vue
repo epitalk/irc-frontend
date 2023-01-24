@@ -21,6 +21,9 @@
     <h2 class="mb-2">Messages</h2>
     <Messages :messages="messages"/>
 
+    <BotMessage>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolorem doloribus est facere id inventore ipsam iure laboriosam, laborum minima minus numquam omnis quaerat quia quod reiciendis sed ut voluptatum.
+    </BotMessage>
 
     <ChatInput/>
 
@@ -33,6 +36,7 @@ import Avatar from "@/components/Common/Avatar.vue"
 import Logo from "@/components/Brands/Logo.vue"
 import Icon from "@/components/Common/Icon.vue"
 import Messages from "@/components/Messaging/Messages.vue"
+import BotMessage from "@/components/Messaging/BotMessage.vue"
 import messages from "@/data/messages.json"
 import ChatInput from "@/components/Fields/ChatInput.vue"
 </script>
