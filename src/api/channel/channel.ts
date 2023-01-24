@@ -1,12 +1,14 @@
+import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { API_URL } from "@/utils/env";
+import type { ChannelModel } from "@/api/channel/channel.model";
 
-export class Channel {
+export class ChannelApi {
+  static channelApiUrl = API_URL + "/api/channel";
   static async createChannel(channelName: string) {
-    await axios.post(API_URL + '/chat/channel', { name: channelName })
+    await axios.post(this.channelApiUrl, { name: channelName })
   }
-  static async getChannels(): Promise<string[]> {
-    const channels = await axios.get(API_URL + '/chat/channels')
-    return channels.data || []
+  static async getChannels(): Promise<AxiosResponse<ChannelModel[]>> {
+    return await axios.get(this.channelApiUrl)
   }
 }

@@ -2,20 +2,21 @@ import { adminChannels, API_URL, MERCURE_URL } from "@/utils/env";
 import { useChannelStore } from "@/stores/channel.store";
 import axios from "axios";
 import { useUserStore } from "@/stores/user.store";
-import { Channel } from "@/api/channel/channel";
+import { ChannelApi } from "@/api/channel/channel";
 import { Notyf } from "notyf";
+import { ChannelService } from "@/services/ChannelService";
+import router from "@/router";
 
-export class Sse {
+export class SseService {
   private static eventSource: EventSource | undefined = undefined as EventSource | undefined;
   private static notyf = new Notyf({ position: { x: "right", y: "top" } });
 
   static createChannel = async (channelName: string) => {
-    const channelStore = useChannelStore();
-    if(channelStore.channels.includes(channelName) || adminChannels.includes(channelName)){
+    if(ChannelService.findChannelByName(channelName) || adminChannels.includes(channelName)){
       return this.notyf.error(`Le channel ${channelName} existe déjà !`)
     }
-    await Channel.createChannel(channelName)
-    channelStore.setCurrentChannel(channelName)
+    await ChannelApi.createChannel(channelName)
+    await router.push('/channel/' + channelName)
   }
 
   static initSseChannels = () => {
@@ -26,8 +27,7 @@ export class Sse {
     if (eventSource) {
       eventSource.onmessage = (e) => {
         if (channelStore) {
-          console.log(e.data);
-          channelStore.addChannel(e.data);
+          channelStore.addChannel(JSON.parse(e.data));
         }
       };
     }
@@ -64,9 +64,7 @@ export class Sse {
   }
 
   static leaveChannel(channelName: string){
-    const channelStore = useChannelStore();
-
-    if(!channelStore.channels.includes(channelName)){
+    if(!ChannelService.findChannelByName(channelName)){
       return this.notyf.error(`Le channel ${channelName} n'existe pas !`)
     }
     this.eventSource?.close()

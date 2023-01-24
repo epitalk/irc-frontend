@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "@/utils/env";
-import type {UserModel} from "@/api/user/user.types"
+import type {UserModel} from "@/api/user/user.model"
 
 export class UserApi {
   static userApiUrl = API_URL + "/api/user";
