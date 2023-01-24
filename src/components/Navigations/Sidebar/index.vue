@@ -41,10 +41,4 @@ const username = ref(userStore.user?.username || 'unknown')
 
 /*REFS*/
 const channels = ref(channelStore.channels)
-
-
-// /*WATCHERS*/
-// watch(() => channels.value, (channels) => {
-//   content.value = value
-// });
 </script>
