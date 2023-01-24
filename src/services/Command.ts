@@ -2,6 +2,7 @@ import { Sse } from "@/services/Sse";
 import { useChannelStore } from "@/stores/channel.store";
 import { Notyf } from "notyf";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user.store";
 
 export class Command {
   static notyf = new Notyf();
@@ -115,7 +116,8 @@ export class Command {
   }
 
   static setUsername(username: string | undefined) {
-    console.log("setUsername", username);
+    const userStore = useUserStore()
+    userStore.setUsername(username)
   }
 
   static async createChannel(channelName: string | undefined) {

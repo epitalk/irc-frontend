@@ -18,7 +18,7 @@
       </ul>
       <div class="d-flex gap-1 bt-1 center-y" style="padding: 18px 8px;">
         <Avatar src="/images/anonyme-user.jpg" alt="username"/>
-        <span>{{ username }}</span>
+        <span>{{ userStore.user?.username || 'unknown' }}</span>
       </div>
     </div>
   </nav>
@@ -26,21 +26,15 @@
 <script lang="ts" setup>
 import Logo from "@/components/Brands/Logo.vue"
 import Avatar from "@/components/Common/Avatar.vue"
-import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user.store";
 import { ref } from "vue";
 import { useChannelStore } from "@/stores/channel.store";
 import SideBarLink from "@/components/Navigations/Sidebar/SideBarLink.vue"
 
-
-/*HOOKS*/
-const route = useRoute()
-
 /*STORE*/
 const userStore = useUserStore()
 const channelStore = useChannelStore()
 
-const username = ref(userStore.user?.username || 'unknown')
 
 /*REFS*/
 const channels = ref(channelStore.channels)
