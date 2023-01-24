@@ -2,10 +2,21 @@ import { API_URL, MERCURE_URL } from "@/utils/env";
 import { useChannelStore } from "@/stores/channel.store";
 import axios from "axios";
 import { useUserStore } from "@/stores/user.store";
+import { Channel } from "@/api/channel/channel";
 import { Notyf } from "notyf";
 
 export class Sse {
   private static eventSource: EventSource | undefined = undefined as EventSource | undefined;
+  private static notyf = new Notyf();
+
+  static createChannel = async (channelName: string) => {
+    const channelStore = useChannelStore();
+    if(channelStore.channels.includes(channelName) || channelName === "topics"){
+      return this.notyf.error(`Le channel ${channelName} existe déjà !`)
+    }
+    await Channel.createChannel(channelName)
+    channelStore.setCurrentChannel(channelName)
+  }
 
   static initSseChannels = () => {
     const channelStore = useChannelStore();
@@ -24,7 +35,6 @@ export class Sse {
   };
 
   static connectToTopic(topic: string): EventSource | undefined {
-    console.log(topic);
     /*Channel SSE */
     const url = new URL(MERCURE_URL);
     url.searchParams.append("topic", topic);

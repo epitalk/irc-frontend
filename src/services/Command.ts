@@ -114,8 +114,12 @@ export class Command {
     console.log("setUsername", username);
   }
 
-  static createChannel(channelName: string) {
-    console.log("createChannel", channelName);
+  static async createChannel(channelName: string | undefined) {
+    console.log("PASSE 1");
+    if (channelName) {
+      console.log("PASSE 2");
+      await Sse.createChannel(channelName)
+    }
   }
 
   static deleteChannel(channelName: string) {
