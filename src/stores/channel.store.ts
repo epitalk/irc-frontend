@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import type { Messages } from "@/types/message";
 import { SITE_NAME } from "@/utils/env";
 import type { ChannelModel } from "@/api/channel/channel.model";
+import router from "@/router";
+
 
 export const useChannelStore = defineStore("channelStore", {
   state: () => ({
@@ -21,10 +23,10 @@ export const useChannelStore = defineStore("channelStore", {
     addChannel(channel: ChannelModel) {
       this.channels.push(channel);
     },
-    deleteChannel(channel: string) {
+    async deleteChannel(channel: string) {
       this.channels = this.channels.filter(c => c.name !== channel);
       if (channel === this.currentChannel) {
-        this.currentChannel = "general";
+        await router.push('/channel/general')
       }
     },
     addBotMessage(content: string) {
