@@ -10,7 +10,7 @@
       <ul class="d-flex column center-y px-1 py-2 h-full gap-2 overflow-y-auto">
         <side-bar-link
             :class="{ active: channelStore.currentChannel === channel.name }"
-            v-for="channel in channels"
+            v-for="channel in channelStore.channels"
             :key="channel"
             :item="channel.name"
             large
@@ -27,7 +27,6 @@
 import Logo from "@/components/Brands/Logo.vue"
 import Avatar from "@/components/Common/Avatar.vue"
 import { useUserStore } from "@/stores/user.store";
-import { ref } from "vue";
 import { useChannelStore } from "@/stores/channel.store";
 import SideBarLink from "@/components/Navigations/Sidebar/SideBarLink.vue"
 
@@ -36,6 +35,4 @@ const userStore = useUserStore()
 const channelStore = useChannelStore()
 
 
-/*REFS*/
-const channels = ref(channelStore.channels)
 </script>
