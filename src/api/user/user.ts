@@ -18,9 +18,9 @@ export class UserApi {
   //   return axios.get(API_URL + '/user/' + id).then(response => response).catch(err => err)
   // }
   //
-  // static async update(id: number, user: UserType): Promise<UserType> {
-  //   return await axios.put(API_URL + '/user' + id, user).then(response => response).catch(err => err)
-  // }
+  static async update(oldUsername: string, username: string): Promise<UserModel> {
+    return await axios.put(`${this.userApiUrl}/${oldUsername}`, {username})
+  }
   //
   // static delete(id: number): Promise<null> {
   //   return axios.delete(API_URL + '/user/' + id).then(response => response).catch(err => err)

@@ -4,6 +4,8 @@ import { Notyf } from "notyf";
 import { useUserStore } from "@/stores/user.store";
 import { ChannelService } from "@/services/ChannelService";
 import { ChannelApi } from "@/api/channel/channel";
+import router from "@/router";
+import { UserApi } from "@/api/user/user";
 
 export class CommandService {
   static notyf = new Notyf({ position: { x: "right", y: "top" } });
@@ -95,15 +97,14 @@ export class CommandService {
     }
   }
 
-  static joinChannel(channelName: string) {
-    const channelStore = useChannelStore();
+  static async joinChannel(channelName: string) {
 
     if (channelName === "topics" || !ChannelService.findChannelByName(channelName)) {
       this.notyf.error(`Le channel ${channelName} n'existe pas !`);
       return undefined;
     }
     SseService.connectToTopic(channelName);
-    channelStore.setCurrentChannel(channelName);
+    await router.push("/channel/" + channelName)
   }
 
   static listChannel(search: string | undefined) {
@@ -117,8 +118,14 @@ export class CommandService {
   }
 
   static setUsername(username: string | undefined) {
-    const userStore = useUserStore()
-    userStore.setUsername(username)
+    if (username){
+      const userStore = useUserStore()
+      UserApi.update(userStore.user.username, username).then(() => {
+        userStore.setUsername(username)
+      }).catch(() => {
+        this.notyf.error(`Un utilisateur utilise déjà ce nom d'utilisateur.`);
+      })
+    }
   }
 
   static async createChannel(channelName: string | undefined) {
@@ -140,8 +147,8 @@ export class CommandService {
     console.log("sendPrivateMessage", username, message);
   }
 
-  static leaveChannel(channelName: string) {
+  static async leaveChannel(channelName: string) {
     SseService.leaveChannel(channelName)
-    this.joinChannel("general")
+    await this.joinChannel("general")
   }
 }
