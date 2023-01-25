@@ -3,6 +3,7 @@ import { useChannelStore } from "@/stores/channel.store";
 import { Notyf } from "notyf";
 import { useUserStore } from "@/stores/user.store";
 import { ChannelService } from "@/services/ChannelService";
+import { ChannelApi } from "@/api/channel/channel";
 
 export class CommandService {
   static notyf = new Notyf({ position: { x: "right", y: "top" } });
@@ -126,8 +127,13 @@ export class CommandService {
     }
   }
 
-  static deleteChannel(channelName: string) {
-    console.log("deleteChannel", channelName);
+  static async deleteChannel(channelName: string) {
+    const channelStore = useChannelStore()
+    ChannelApi.deleteChannel(channelName).then(() => {
+      channelStore.deleteChannel(channelName)
+    }).catch(() => {
+      this.notyf.error(`Le channel ${channelName} n'existe pas !`);
+    })
   }
 
   static sendPrivateMessage(username: string, message: string) {

@@ -11,4 +11,7 @@ export class ChannelApi {
   static async getChannels(): Promise<AxiosResponse<ChannelModel[]>> {
     return await axios.get(this.channelApiUrl)
   }
+  static async deleteChannel(channelName: string) {
+    await axios.delete(`${this.channelApiUrl}/${channelName}`)
+  }
 }
