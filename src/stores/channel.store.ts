@@ -3,6 +3,7 @@ import type { Messages } from "@/types/message";
 import { SITE_NAME } from "@/utils/env";
 import type { ChannelModel } from "@/api/channel/channel.model";
 import router from "@/router";
+import type { UserModel } from "@/api/user/user.model";
 
 
 export const useChannelStore = defineStore("channelStore", {
@@ -14,6 +15,13 @@ export const useChannelStore = defineStore("channelStore", {
     currentChannel: ""
   }),
   actions: {
+    addUserChannel(channelName: string, user: UserModel){
+      const channel = this.channels.find(c => c.name === channelName)
+
+      if (channel){
+        channel.users.push(user)
+      }
+    },
     setChannels(channels: ChannelModel[]) {
       this.channels = channels;
     },
@@ -30,7 +38,9 @@ export const useChannelStore = defineStore("channelStore", {
       }
     },
     addBotMessage(content: string) {
-      //@ts-ignore
+      if (!this.messages[this.currentChannel]){
+        this.messages[this.currentChannel] = []
+      }
       this.messages[this.currentChannel].push({ username: SITE_NAME, content });
     }
   }

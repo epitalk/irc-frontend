@@ -9,3 +9,8 @@ export interface Message extends TimeStamps {
     user: User,
     isUserMessage: boolean
 }
+
+export type MessageCommand = {
+    content: string,
+    username: string
+}

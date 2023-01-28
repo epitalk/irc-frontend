@@ -1,7 +1,6 @@
 <template>
   <div class="input d-flex center-y w-full gap-2 relative">
     <AutoComplete @addNewMessage="addNewMessage" :placeholder="`Envoyer un message dans #${channelStore.currentChannel}`" />
-<!--    <EmojiButton @click="open"/>-->
   </div>
 </template>
 

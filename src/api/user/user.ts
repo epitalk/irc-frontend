@@ -5,7 +5,7 @@ import type {UserModel} from "@/api/user/user.model"
 export class UserApi {
   static userApiUrl = API_URL + "/api/user";
 
-  static async create(username: string): Promise<UserModel> {
+  static async create(username: string): Promise<{data: UserModel}> {
     return await axios.post(this.userApiUrl, { username });
   }
 
@@ -18,7 +18,7 @@ export class UserApi {
   //   return axios.get(API_URL + '/user/' + id).then(response => response).catch(err => err)
   // }
   //
-  static async update(oldUsername: string, username: string): Promise<UserModel> {
+  static async update(oldUsername: string, username: string): Promise<{data: UserModel}> {
     return await axios.put(`${this.userApiUrl}/${oldUsername}`, {username})
   }
   //

@@ -7,13 +7,13 @@
 </template>
 <script lang="ts" setup>
 import Message from "@/components/Messaging/Message.vue"
-import type { Message as MessageType }  from "@/api/message/messages"
+import type { MessageCommand }  from "@/api/message/messages"
 import type { PropType } from "vue";
 import { ref } from "vue";
 
 /*PROPS*/
 const props = defineProps({
-  messages: { type: Array as PropType<MessageType[]>, default: () => [] }
+  messages: { type: Array as PropType<MessageCommand[]>, default: () => [] }
 })
 
 /*REFS*/
