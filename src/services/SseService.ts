@@ -6,6 +6,7 @@ import { ChannelApi } from "@/api/channel/channel";
 import { Notyf } from "notyf";
 import { ChannelService } from "@/services/ChannelService";
 import router from "@/router";
+import type { MessageCommand } from "@/api/message/messages";
 
 export class SseService {
   private static eventSource: EventSource | undefined = undefined as EventSource | undefined;
@@ -26,6 +27,7 @@ export class SseService {
 
     if (eventSource) {
       eventSource.onmessage = (e) => {
+        console.log(e);
         if (channelStore) {
           channelStore.addChannel(JSON.parse(e.data));
         }
@@ -70,11 +72,11 @@ export class SseService {
     this.eventSource = this.connectToTopic(channelStore.currentChannel);
 
     if (this.eventSource) {
-      this.eventSource.onmessage = (e: { data: string }) => {
+      this.eventSource.onmessage = (e: { data: MessageCommand }) => {
         if (!channelStore.messages[channelStore.currentChannel]) {
           channelStore.messages[channelStore.currentChannel] = [];
         }
-        channelStore.messages[channelStore.currentChannel].push(JSON.parse(e.data).message);
+        channelStore.messages[channelStore.currentChannel].push(JSON.parse(e.data));
       };
     }
   }
@@ -97,11 +99,9 @@ export class SseService {
     const channelStore = useChannelStore();
     const userStore = useUserStore();
 
-    await axios.post(API_URL + "/chat/channel/" + channelStore.currentChannel, {
-      message: {
+    await axios.post(API_URL + "/api/message/channel/" + channelStore.currentChannel, {
         username: userStore.user?.username,
         content: message
-      }
     });
   }
 }
