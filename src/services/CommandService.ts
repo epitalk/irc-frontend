@@ -114,14 +114,16 @@ export class CommandService {
   }
 
   static channelUsers() {
-    console.log("channelUsers");
+    const channelStore = useChannelStore();
+    channelStore.addBotMessage('channel_users')
   }
 
   static setUsername(username: string | undefined) {
     if (username){
       const userStore = useUserStore()
-      UserApi.update(userStore.user.username, username).then(() => {
-        userStore.setUsername(username)
+      UserApi.update(userStore.user.username, username).then((r) => {
+        ChannelService.replaceUsernameInChannels(userStore.user.username, username)
+        userStore.setUser(r.data)
       }).catch(() => {
         this.notyf.error(`Un utilisateur utilise déjà ce nom d'utilisateur.`);
       })
@@ -148,7 +150,11 @@ export class CommandService {
   }
 
   static async leaveChannel(channelName: string) {
+    const channelStore = useChannelStore()
     SseService.leaveChannel(channelName)
-    await this.joinChannel("general")
+
+    if (channelName === channelStore.currentChannel){
+      await this.joinChannel("general")
+    }
   }
 }

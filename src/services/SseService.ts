@@ -36,7 +36,23 @@ export class SseService {
 
   static connectToTopic(topic: string): EventSource | undefined {
     /*Channel SSE */
+    const channelStore = useChannelStore()
     const url = new URL(MERCURE_URL);
+    const channel = ChannelService.findChannelByName(topic)
+
+    if (channel && topic !== "topics"){
+       const userStore = useUserStore()
+
+       const userIsInChannel = channel.users.find(u => u.id === userStore.user.id) !== undefined
+       if (!userIsInChannel){
+           ChannelApi.addUserChannel(topic, userStore.user.username).then(() => {
+             channelStore.addUserChannel(topic, userStore.user)
+           }).catch(() => {
+               this.notyf.error("Erreur lors de l'ajout de l'utilisateur au channel")
+           })
+       }
+    }
+
     url.searchParams.append("topic", topic);
     const eventSource = new EventSource(url, { withCredentials: true });
 
@@ -63,11 +79,18 @@ export class SseService {
     }
   }
 
-  static leaveChannel(channelName: string){
-    if(!ChannelService.findChannelByName(channelName)){
+  static async leaveChannel(channelName: string) {
+    const userStore = useUserStore()
+    const channelSTore = useChannelStore()
+    if (!ChannelService.findChannelByName(channelName)) {
       return this.notyf.error(`Le channel ${channelName} n'existe pas !`)
     }
+    await ChannelApi.removeUserChannel(channelName, userStore.user.username)
     this.eventSource?.close()
+
+    if (channelName === channelSTore.currentChannel){
+      await router.push('/general')
+    }
   }
 
   static async addChannelMessage(message: string) {

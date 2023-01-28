@@ -31,8 +31,8 @@ const userStore = useUserStore();
 /*METHODS*/
 const handleSubmit = async (username: string) => {
 
-  UserApi.create(username).then(async () => {
-    userStore.setUsername(username);
+  UserApi.create(username).then(async (res) => {
+    userStore.setUser(res.data);
     await router.push("/");
     notyf.success(`Bienvenue sur ${SITE_NAME} 🥳`);
   }).catch(() => {

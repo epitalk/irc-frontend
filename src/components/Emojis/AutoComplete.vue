@@ -3,7 +3,6 @@
     <div class="command__suggestions" v-if="openCommandMenu && commands.length">
       <CommandMenu :commands="commands" :current-command="commandIndex" @handleSelect="handleSelect" />
     </div>
-    {{ openCommandMenu }}
     <input class="no-style w-full" ref="input" v-model="content" @keyup="searchInCommands" type="text"
            :placeholder="props.placeholder">
   </Form>
