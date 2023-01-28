@@ -9,6 +9,9 @@ export class ChannelApi {
   static async createChannel(channelName: string, author: string) {
     await axios.post(this.channelApiUrl, { name: channelName, author });
   }
+  static async chatActions(event: "leave" | "join", username: string, channel: string){
+    await axios.post(this.channelApiUrl + '/actions', { event, username, channel });
+  }
 
   static async addUserChannel(channel: string, username: string) {
     await axios.post(this.channelApiUrl + "/user", { channel, username });

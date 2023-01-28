@@ -6,6 +6,8 @@ import { ChannelService } from "@/services/ChannelService";
 import { ChannelApi } from "@/api/channel/channel";
 import router from "@/router";
 import { UserApi } from "@/api/user/user";
+import { adminChannels } from "@/utils/env";
+import axios from "axios";
 
 export class CommandService {
   static notyf = new Notyf({ position: { x: "right", y: "top" } });
@@ -99,7 +101,7 @@ export class CommandService {
 
   static async joinChannel(channelName: string) {
 
-    if (channelName === "topics" || !ChannelService.findChannelByName(channelName)) {
+    if (adminChannels.includes(channelName) || !ChannelService.findChannelByName(channelName)) {
       this.notyf.error(`Le channel ${channelName} n'existe pas !`);
       return undefined;
     }
