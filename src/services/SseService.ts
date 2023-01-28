@@ -6,7 +6,6 @@ import { ChannelApi } from "@/api/channel/channel";
 import { Notyf } from "notyf";
 import { ChannelService } from "@/services/ChannelService";
 import router from "@/router";
-import type { MessageCommand } from "@/api/message/messages";
 
 export class SseService {
   private static eventSource: EventSource | undefined = undefined as EventSource | undefined;
@@ -72,7 +71,7 @@ export class SseService {
     this.eventSource = this.connectToTopic(channelStore.currentChannel);
 
     if (this.eventSource) {
-      this.eventSource.onmessage = (e: { data: MessageCommand }) => {
+      this.eventSource.onmessage = (e: { data: string }) => {
         if (!channelStore.messages[channelStore.currentChannel]) {
           channelStore.messages[channelStore.currentChannel] = [];
         }

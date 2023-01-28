@@ -1,7 +1,7 @@
 <template>
   <div v-if="props.message && props.message.username !== SITE_NAME" class="d-grid gap-2 col-auto col-2 row-fit message"
        :class="`message-${props.message.username === username ? 'send' : 'receive'}`">
-    <Avatar online>{{ firstLetter }}</Avatar>
+    <Avatar :title="props.message.username" online>{{ firstLetter }}</Avatar>
     <div class="px-2 py-1 d-flex center-y message-content">
       {{ props.message.content }}
     </div>
