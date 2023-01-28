@@ -5,6 +5,7 @@ import WelcomePage from "@/pages/WelcomePage.vue"
 import NotFound from "@/pages/NotFound.vue"
 import { useUserStore } from "@/stores/user.store";
 import { useChannelStore } from "@/stores/channel.store";
+import { SITE_NAME } from "@/utils/env";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,6 +67,8 @@ router.beforeEach(async (to) => {
     const channelStore = useChannelStore()
     if (to.path === '/'){
         channelStore.setCurrentChannel('general')
+        /*META*/
+        document.title = SITE_NAME + " | " + channelStore.currentChannel
     }
 
     if (to.path.includes('channel')){
@@ -73,6 +76,8 @@ router.beforeEach(async (to) => {
         const matchs = to.path.match(regex);
         if (matchs){
             channelStore.setCurrentChannel(matchs[0])
+            /*META*/
+            document.title = SITE_NAME + " | " + channelStore.currentChannel
         }
     }
 });
