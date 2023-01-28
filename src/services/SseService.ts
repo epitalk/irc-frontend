@@ -21,29 +21,35 @@ export class SseService {
     await router.push("/channel/" + channelName);
   };
 
-  static initSseChannels = () => {
+  static initSseChannels = async () => {
     const channelStore = useChannelStore();
 
-    const eventSource = this.connectToTopic("topics");
+    const eventTopics = await this.connectToTopic("topics");
+    const eventActions = await this.connectToTopic("actions");
 
-    if (eventSource) {
-      eventSource.onmessage = (e) => {
+    if (eventTopics) {
+      eventTopics.onmessage = (e) => {
         console.log(e);
         if (channelStore) {
           channelStore.addChannel(JSON.parse(e.data));
         }
       };
     }
-
+    if (eventActions) {
+      eventActions.onmessage = (e) => {
+        console.log(e);
+      };
+    }
   };
 
-  static connectToTopic(topic: string): EventSource | undefined {
+  static async connectToTopic(topic: string): Promise<EventSource | undefined> {
     /*Channel SSE */
     const channelStore = useChannelStore();
+    const userStore = useUserStore();
     const url = new URL(MERCURE_URL);
     const channel = ChannelService.findChannelByName(topic);
 
-    if (channel && topic !== "topics") {
+    if (channel && !adminChannels.includes(topic)) {
       const userStore = useUserStore();
 
       const userIsInChannel = channel.users?.find(u => u.id === userStore.user.id) !== undefined;
@@ -55,6 +61,9 @@ export class SseService {
         });
       }
     }
+    if (!adminChannels.includes(topic) || topic === "general"){
+      await ChannelApi.chatActions("join", userStore.user.username, topic)
+    }
 
     url.searchParams.append("topic", topic);
     const eventSource = new EventSource(url, { withCredentials: true });
@@ -64,13 +73,13 @@ export class SseService {
     return eventSource;
   }
 
-  static getChannelMessages() {
+  static async getChannelMessages() {
     const channelStore = useChannelStore();
 
     if (this.eventSource) {
       this.eventSource.close();
     }
-    this.eventSource = this.connectToTopic(channelStore.currentChannel);
+    this.eventSource = await this.connectToTopic(channelStore.currentChannel);
 
     if (this.eventSource) {
       this.eventSource.onmessage = (e: { data: string }) => {
@@ -88,7 +97,14 @@ export class SseService {
     if (!ChannelService.findChannelByName(channelName)) {
       return this.notyf.error(`Le channel ${channelName} n'existe pas !`);
     }
-    await ChannelApi.removeUserChannel(channelName, userStore.user.username);
+    ChannelApi.removeUserChannel(channelName, userStore.user.username).catch(() => {
+      this.notyf.error('Vous ne faites pas partie de ce channel.')
+    });
+
+    if (!adminChannels.includes(channelName) || channelName === "general"){
+      await ChannelApi.chatActions("leave", userStore.user.username, channelName)
+    }
+
     this.eventSource?.close();
 
     if (channelName === channelSTore.currentChannel) {
