@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import type { UserModel } from "@/api/user/user.model";
+import router from "@/router";
 
 const userInLocalStorage = localStorage.getItem("user");
 
@@ -8,7 +9,11 @@ export const useUserStore = defineStore("userStore", {
     user: userInLocalStorage ? JSON.parse(userInLocalStorage) : {} as UserModel | {}
   }),
   actions: {
-    setUser(user: UserModel) {
+    async logout() {
+      this.setUser({})
+      await router.push('/welcome')
+    },
+    setUser(user: UserModel | {}) {
       this.user = user;
       localStorage.setItem("user", JSON.stringify(this.user));
     },

@@ -16,22 +16,17 @@
             large
         />
       </ul>
-      <div class="d-flex gap-1 bt-1 center-y" style="padding: 18px 8px;">
-        <Avatar src="/images/anonyme-user.jpg" alt="username"/>
-        <span>{{ userStore.user?.username || 'unknown' }}</span>
-      </div>
+      <UserMenu/>
     </div>
   </nav>
 </template>
 <script lang="ts" setup>
 import Logo from "@/components/Brands/Logo.vue"
-import Avatar from "@/components/Common/Avatar.vue"
-import { useUserStore } from "@/stores/user.store";
 import { useChannelStore } from "@/stores/channel.store";
 import SideBarLink from "@/components/Navigations/Sidebar/SideBarLink.vue"
+import UserMenu from "@/components/Menus/UserMenu.vue"
 
 /*STORE*/
-const userStore = useUserStore()
 const channelStore = useChannelStore()
 
 
