@@ -1,8 +1,9 @@
 <template>
   <main class="w-full d-flex stretch" v-if="!appStore.pending">
     <Sidebar/>
+    <SecondSidebar v-if="appStore.isInPrivateMessage"/>
     <slot />
-    <SecondSidebar/>
+
   </main>
 
   <main class="vh-100 centered" v-else>

@@ -6,7 +6,7 @@ const userInLocalStorage = localStorage.getItem("user");
 
 export const useUserStore = defineStore("userStore", {
   state: () => ({
-    users: [] as UserModel[],
+    usersWithMessage: [] as UserModel[],
     user: userInLocalStorage ? JSON.parse(userInLocalStorage) : {} as UserModel | {}
   }),
   actions: {
@@ -14,8 +14,8 @@ export const useUserStore = defineStore("userStore", {
       this.setUser({})
       await router.push('/welcome')
     },
-    setUsers(users: UserModel[]) {
-      this.users = users;
+    setUsersWithMessage(users: UserModel[]) {
+      this.usersWithMessage = users;
     },
     setUser(user: UserModel | {}) {
       this.user = user;

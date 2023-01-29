@@ -8,6 +8,7 @@ import { ChannelService } from "@/services/ChannelService";
 import router from "@/router";
 import type { ChannelModel } from "@/api/channel/channel.model";
 import type { UserModel } from "@/api/user/user.model";
+import { useAppStore } from "@/stores/app.store";
 
 export class SseService {
   private static eventSource: EventSource | undefined = undefined as EventSource | undefined;
@@ -32,24 +33,24 @@ export class SseService {
     if (eventTopics) {
       eventTopics.onmessage = (e) => {
         if (channelStore) {
-          const res: {action: string, channel: ChannelModel, user: UserModel | null} = JSON.parse(e.data)
+          const res: { action: string, channel: ChannelModel, user: UserModel | null } = JSON.parse(e.data);
 
           switch (res.action) {
-            case 'create':
+            case "create":
               channelStore.addChannel(res.channel);
               break;
-            case 'delete':
-              channelStore.deleteChannel(res.channel.name)
+            case "delete":
+              channelStore.deleteChannel(res.channel.name);
               break;
-            case 'join':
-              if (res.user){
-                channelStore.addUserChannel(res.channel.name, res.user)
+            case "join":
+              if (res.user) {
+                channelStore.addUserChannel(res.channel.name, res.user);
               }
 
               break;
-            case 'leave':
-              if (res.user){
-                channelStore.removeUserChannel(res.channel.name, res.user)
+            case "leave":
+              if (res.user) {
+                channelStore.removeUserChannel(res.channel.name, res.user);
               }
               break;
           }
@@ -59,35 +60,37 @@ export class SseService {
 
     /*Sse event private message*/
     const userToken = "eyJhbGciOiJIUzI1NiJ9.ZGR6ZHo.5Onqs--VaZwP3TUR9EPpnWv0-7twffDU9fhnVLX1coc";
-    const privateMessageEvent = await this.connectToTopic(`@me-${userToken}`)
+    const eventPrivateMessage = await this.connectToTopic(`@me-${userToken}`);
 
-    if (privateMessageEvent){
-      privateMessageEvent.onmessage =(e) => {
+    if (eventPrivateMessage){
+      eventPrivateMessage.onmessage = (e) => {
         console.log(e.data);
       }
     }
   };
 
 
-
   static async connectToTopic(topic: string): Promise<EventSource | undefined> {
-    console.log("connectToTopic", topic);
     /*Channel SSE */
     const channelStore = useChannelStore();
     const userStore = useUserStore();
+    const appStore = useAppStore();
     const url = new URL(MERCURE_URL);
-    const channel = ChannelService.findChannelByName(topic);
 
-    const userIsInChannel = channel?.users?.find(u => u.id === userStore.user.id) !== undefined;
-    if (channel && !adminChannels.includes(topic)) {
-      const userStore = useUserStore();
+    if (!appStore.isInPrivateMessage){
+      const channel = ChannelService.findChannelByName(topic);
 
-      if (!userIsInChannel) {
-        ChannelApi.addUserChannel(topic, userStore.user.username).then(() => {
-          channelStore.addUserChannel(topic, userStore.user);
-        }).catch(() => {
-          return this.notyf.error("Erreur lors de l'ajout de l'utilisateur au channel");
-        });
+      const userIsInChannel = channel?.users?.find(u => u.id === userStore.user.id) !== undefined;
+      if (channel && !adminChannels.includes(topic)) {
+        const userStore = useUserStore();
+
+        if (!userIsInChannel) {
+          ChannelApi.addUserChannel(topic, userStore.user.username).then(() => {
+            channelStore.addUserChannel(topic, userStore.user);
+          }).catch(() => {
+            return this.notyf.error("Erreur lors de l'ajout de l'utilisateur au channel");
+          });
+        }
       }
     }
 
@@ -101,11 +104,16 @@ export class SseService {
 
   static async getChannelMessages() {
     const channelStore = useChannelStore();
+    const appStore = useAppStore();
 
     if (this.eventSource) {
       this.eventSource.close();
     }
-    this.eventSource = await this.connectToTopic(channelStore.currentChannel);
+
+    if (!appStore.isInPrivateMessage) {
+      this.eventSource = await this.connectToTopic(channelStore.currentChannel);
+    }
+
 
     if (this.eventSource) {
       this.eventSource.onmessage = (e: { data: string }) => {
@@ -127,7 +135,7 @@ export class SseService {
       return this.notyf.error(`Le channel ${channelName} n'existe pas !`);
     }
 
-    const errorNoIsChannel = "Vous ne faites pas partie de ce channel."
+    const errorNoIsChannel = "Vous ne faites pas partie de ce channel.";
     if (!userIsInChannel) {
       return this.notyf.error(errorNoIsChannel);
     }
@@ -141,6 +149,15 @@ export class SseService {
     if (channelName === channelSTore.currentChannel) {
       await router.push("/general");
     }
+  }
+
+  static async addPrivateMessage(message: string) {
+    const channelStore = useChannelStore();
+    const userStore = useUserStore();
+
+    await axios.post(`${API_URL}/api/message-private/${userStore.user?.username}/${channelStore.currentChannel}`, {
+      content: message
+    });
   }
 
   static async addChannelMessage(message: string) {

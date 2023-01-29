@@ -6,7 +6,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import ChannelMessage from "@/components/Messaging/Message.vue"
+import Message from "@/components/Messaging/Message.vue"
 import type { MessageCommand }  from "@/api/message/message.model"
 import type { PropType } from "vue";
 import { ref } from "vue";

@@ -2,10 +2,14 @@
   cursor: pointer;
   transition: background-color .25s ease;
   &.active {
-    background-color: var(--grey-400);
+    background-color: var(--primary);
+
+    &:hover {
+      background-color: var(--primary);
+    }
   }
   &:hover {
-    background-color: var(--grey-500);
+    background-color: var(--grey-400);
   }
 }
 
