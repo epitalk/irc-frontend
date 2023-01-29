@@ -6,12 +6,16 @@ const userInLocalStorage = localStorage.getItem("user");
 
 export const useUserStore = defineStore("userStore", {
   state: () => ({
+    users: [] as UserModel[],
     user: userInLocalStorage ? JSON.parse(userInLocalStorage) : {} as UserModel | {}
   }),
   actions: {
     async logout() {
       this.setUser({})
       await router.push('/welcome')
+    },
+    setUsers(users: UserModel[]) {
+      this.users = users;
     },
     setUser(user: UserModel | {}) {
       this.user = user;
