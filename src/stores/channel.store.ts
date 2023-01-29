@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import type { Messages } from "@/types/message";
 import { SITE_NAME } from "@/utils/env";
-import type { ChannelModel, ChatEvent } from "@/api/channel/channel.model";
+import type { ChannelModel } from "@/api/channel/channel.model";
 import router from "@/router";
 import type { UserModel } from "@/api/user/user.model";
 
@@ -46,11 +46,11 @@ export const useChannelStore = defineStore("channelStore", {
         await router.push('/channel/general')
       }
     },
-    addBotMessage(content: string) {
+    addBotMessage(content: string, ...args: any[]) {
       if (!this.messages[this.currentChannel]){
         this.messages[this.currentChannel] = []
       }
-      this.messages[this.currentChannel].push({ username: SITE_NAME, content });
+      this.messages[this.currentChannel].push({ username: SITE_NAME, content, ...args });
     }
   }
 });
