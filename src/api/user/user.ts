@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { AxiosResponse } from "axios";
 import { API_URL } from "@/utils/env";
 import type {UserModel} from "@/api/user/user.model"
 
@@ -9,10 +10,9 @@ export class UserApi {
     return await axios.post(this.userApiUrl, { username });
   }
 
-  // static all(search: string, page?: number, take?: number): Promise<UserType[]> {
-  //   const url = `${API_URL}/user/all?search=${search}&page=${page}&take=${take}`
-  //   return axios.get(url).then(response => response).catch(err => err)
-  // }
+  static all(): Promise<AxiosResponse<UserModel[]>> {
+    return axios.get(this.userApiUrl)
+  }
   //
   // static find(id: number): Promise<UserType> {
   //   return axios.get(API_URL + '/user/' + id).then(response => response).catch(err => err)

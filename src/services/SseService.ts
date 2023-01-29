@@ -56,6 +56,16 @@ export class SseService {
         }
       };
     }
+
+    /*Sse event private message*/
+    const userToken = "eyJhbGciOiJIUzI1NiJ9.ZGR6ZHo.5Onqs--VaZwP3TUR9EPpnWv0-7twffDU9fhnVLX1coc";
+    const privateMessageEvent = await this.connectToTopic(`@me-${userToken}`)
+
+    if (privateMessageEvent){
+      privateMessageEvent.onmessage =(e) => {
+        console.log(e.data);
+      }
+    }
   };
 
 
