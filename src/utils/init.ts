@@ -31,5 +31,5 @@ const initChannelMessages = (channels: ChannelModel[]) => {
 
 export const initApplication = async () => {
   await getChannels()
-  SseService.initSseChannels()
+  await SseService.initSseChannels()
 }

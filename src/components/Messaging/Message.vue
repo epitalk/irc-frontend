@@ -18,14 +18,17 @@
     </BotMessage>
     <BotMessage v-if="props.message.content === 'channel_users'">
       <span class="text-medium" v-if="fullCurrentChannel &&
-      fullCurrentChannel.users.length">Voici tout les utilisateurs sur le channel {{channelStore.currentChannel}}:</span>
+      fullCurrentChannel.users.length">Voici tout les utilisateurs sur le channel {{ channelStore.currentChannel }}:</span>
 
-      <span class="text-medium" v-else>Aucun utilisateur sur le channel {{channelStore.currentChannel}}</span>
+      <span class="text-medium" v-else>Aucun utilisateur sur le channel {{ channelStore.currentChannel }}</span>
 
       <ul class="bullet-list" v-if="fullCurrentChannel">
         <li v-for="user in fullCurrentChannel.users" :key="user.id">{{ user.username }}</li>
       </ul>
 
+    </BotMessage>
+    <BotMessage v-else>
+      {{ props.message.content }}
     </BotMessage>
   </div>
 </template>
@@ -52,17 +55,17 @@ const channelStore = useChannelStore();
 const username = ref(userStore.user?.username);
 
 /*COMPUTED*/
-const fullCurrentChannel = ChannelService.findChannelByName(channelStore.currentChannel)
+const fullCurrentChannel = ChannelService.findChannelByName(channelStore.currentChannel);
 
 /*REFS*/
 const firstLetter = ref(props.message?.username ? props.message?.username[0] : "U");
 
 
 onMounted(() => {
-  const messageContainer = document.querySelector('.messages')
-  if(messageContainer){
-    messageContainer.scrollTop = messageContainer.scrollHeight
+  const messageContainer = document.querySelector(".messages");
+  if (messageContainer) {
+    messageContainer.scrollTop = messageContainer.scrollHeight;
   }
-})
+});
 
 </script>

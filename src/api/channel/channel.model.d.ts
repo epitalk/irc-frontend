@@ -8,3 +8,9 @@ export interface ChannelModel extends TimeStamps {
     users: UserModel[]
     messages: Message[] | []
 }
+
+export type ChatEvent = {
+    event: "leave" | "join",
+    username: string,
+    channel: string
+}
