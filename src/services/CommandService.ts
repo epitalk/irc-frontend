@@ -111,8 +111,7 @@ export class CommandService {
 
   static listChannel(search: string | undefined) {
     const channelStore = useChannelStore();
-    console.log("list channel", search);
-    channelStore.addBotMessage('list')
+    channelStore.addBotMessage('list', { search })
   }
 
   static channelUsers() {

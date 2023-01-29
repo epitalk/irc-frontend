@@ -9,16 +9,23 @@
 
   <div class="d-flex end-x" v-if="props.message && props.message.username === SITE_NAME">
     <BotMessage v-if="props.message.content === 'list'">
-      <span class="text-medium">Voici tout les channels disponible sur le serveur:</span>
+      <span class="text-medium" v-if="channels && channels.length">
+        {{ search
+        ? `Voici la list des channels avec votre recherche ${search}:`
+        : "Voici tout les channels disponible sur le serveur:" }}
+      </span>
 
-      <ul class="bullet-list">
-        <li v-for="channel in channelStore.channels" :key="channel">{{ channel.name }}</li>
+      <span v-else class="text-medium">Aucun channel trouvé{{ search ? ` avec votre recherche ${search}` : null }}</span>
+
+      <ul class="bullet-list" v-if="channels && channels.length">
+        <li v-for="channel in channels" :key="channel">{{ channel.name }}</li>
       </ul>
 
     </BotMessage>
-    <BotMessage v-if="props.message.content === 'channel_users'">
+    <BotMessage v-else-if="props.message.content === 'channel_users'">
       <span class="text-medium" v-if="fullCurrentChannel &&
-      fullCurrentChannel.users.length">Voici tout les utilisateurs sur le channel {{ channelStore.currentChannel }}:</span>
+      fullCurrentChannel.users.length">Voici tout les utilisateurs sur le channel {{ channelStore.currentChannel
+        }}:</span>
 
       <span class="text-medium" v-else>Aucun utilisateur sur le channel {{ channelStore.currentChannel }}</span>
 
@@ -44,9 +51,13 @@ import { SITE_NAME } from "@/utils/env";
 import { useChannelStore } from "@/stores/channel.store";
 import { ChannelService } from "@/services/ChannelService";
 
+interface m extends MessageCommand {
+  [key: number]: { search: string };
+}
+
 /*PROPS*/
 const props = defineProps({
-  message: { type: Object as PropType<MessageCommand>, default: null, required: true }
+  message: { type: Object as PropType<m>, default: null, required: true }
 });
 
 /*STORE*/
@@ -58,6 +69,8 @@ const username = ref(userStore.user?.username);
 const fullCurrentChannel = ChannelService.findChannelByName(channelStore.currentChannel);
 
 /*REFS*/
+const search = ref(props.message[0]?.search);
+const channels = ref(search.value ? channelStore.channels.filter(c => c.name.includes(search.value)) : channelStore.channels);
 const firstLetter = ref(props.message?.username ? props.message?.username[0] : "U");
 
 
