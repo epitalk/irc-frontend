@@ -26,7 +26,7 @@
     </BotMessage>
 
     <ChatInput/>
-
+    <UserMenu/>
   </section>
 </template>
 
@@ -39,4 +39,5 @@ import Messages from "@/components/Messaging/Messages.vue"
 import BotMessage from "@/components/Messaging/BotMessage.vue"
 import messages from "@/data/messages.json"
 import ChatInput from "@/components/Fields/ChatInput.vue"
+import UserMenu from "@/components/Menus/UserMenu.vue"
 </script>

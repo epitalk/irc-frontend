@@ -14,6 +14,12 @@ body {
   position: relative;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+.user-select-none {
+  user-select: none;
+}
 body.light {
   background: var(--light);
 }

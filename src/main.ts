@@ -8,6 +8,11 @@ import './assets/styles/main.scss'
 
 const app = createApp(App)
 
+/*Directives*/
+import clickOutSide from "@/directives/clickOutSide";
+
+app.directive("clickOutSide", clickOutSide)
+
 /*Vee-validate*/
 import { configure, defineRule } from 'vee-validate';
 import { localize } from '@vee-validate/i18n';
