@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import type { Messages } from "@/types/message";
 import { SITE_NAME } from "@/utils/env";
-import type { ChannelModel } from "@/api/channel/channel.model";
+import type { ChannelModel, ChatEvent } from "@/api/channel/channel.model";
 import router from "@/router";
 import type { UserModel } from "@/api/user/user.model";
 
@@ -17,9 +17,15 @@ export const useChannelStore = defineStore("channelStore", {
   actions: {
     addUserChannel(channelName: string, user: UserModel){
       const channel = this.channels.find(c => c.name === channelName)
-
-      if (channel){
+      const userIsInChannel = channel?.users.find(u => u.id === user.id)
+      if (channel && !userIsInChannel){
         channel.users.push(user)
+      }
+    },
+    removeUserChannel(channelName: string, user: UserModel){
+      const channel = this.channels.find(c => c.name === channelName)
+      if (channel){
+        channel.users = channel.users.filter(u => u.id !== user.id)
       }
     },
     setChannels(channels: ChannelModel[]) {
@@ -29,7 +35,10 @@ export const useChannelStore = defineStore("channelStore", {
       this.currentChannel = channel;
     },
     addChannel(channel: ChannelModel) {
-      this.channels.push(channel);
+      const channelAlreadyExist = this.channels.find(c => c.name === channel.name)
+      if (!channelAlreadyExist){
+        this.channels.push(channel);
+      }
     },
     async deleteChannel(channel: string) {
       this.channels = this.channels.filter(c => c.name !== channel);

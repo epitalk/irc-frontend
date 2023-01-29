@@ -105,7 +105,7 @@ export class CommandService {
       this.notyf.error(`Le channel ${channelName} n'existe pas !`);
       return undefined;
     }
-    SseService.connectToTopic(channelName);
+    // await SseService.connectToTopic(channelName);
     await router.push("/channel/" + channelName)
   }
 
@@ -139,10 +139,7 @@ export class CommandService {
   }
 
   static async deleteChannel(channelName: string) {
-    const channelStore = useChannelStore()
-    ChannelApi.deleteChannel(channelName).then(() => {
-      channelStore.deleteChannel(channelName)
-    }).catch(() => {
+    ChannelApi.deleteChannel(channelName).catch(() => {
       this.notyf.error(`Le channel ${channelName} n'existe pas !`);
     })
   }
@@ -153,7 +150,7 @@ export class CommandService {
 
   static async leaveChannel(channelName: string) {
     const channelStore = useChannelStore()
-    SseService.leaveChannel(channelName)
+    await SseService.leaveChannel(channelName)
 
     if (channelName === channelStore.currentChannel){
       await this.joinChannel("general")
