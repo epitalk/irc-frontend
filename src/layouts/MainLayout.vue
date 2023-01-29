@@ -2,6 +2,7 @@
   <main class="w-full d-flex stretch" v-if="!appStore.pending">
     <Sidebar/>
     <slot />
+    <SecondSidebar/>
   </main>
 
   <main class="vh-100 centered" v-else>
@@ -14,6 +15,7 @@ import Sidebar from "@/components/Navigations/Sidebar/index.vue"
 import Spinner from "@/components/Common/Spinner.vue"
 import { initApplication } from "@/utils/init";
 import { useAppStore } from "@/stores/app.store";
+import SecondSidebar from "@/components/Navigations/Sidebar/SecondSidebar.vue"
 /*STORES*/
 const appStore = useAppStore()
 
