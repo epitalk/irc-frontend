@@ -87,8 +87,10 @@ export class CommandService {
         }
         return this.showArgumentError();
       case 6:
-        if (args.length === 2 && typeof args[0] === "string" && typeof args[1] === "string") {
-          return this.sendPrivateMessage(args[0].trim(), args[1].trim());
+        if (args.length >= 2 && args.every(arg => typeof arg === "string")) {
+          const receiver = args[0].trim();
+          const message = args.slice(1).join(" ");
+          return this.sendPrivateMessage(receiver, message);
         }
         return this.showArgumentError()
       case 7:
@@ -143,8 +145,9 @@ export class CommandService {
     })
   }
 
-  static sendPrivateMessage(username: string, message: string) {
-    console.log("sendPrivateMessage", username, message);
+  static async sendPrivateMessage(username: string, message: string) {
+    await router.push('/channel/@me/' + username)
+    await SseService.addPrivateMessage(message)
   }
 
   static async leaveChannel(channelName: string) {

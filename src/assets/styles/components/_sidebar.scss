@@ -14,6 +14,8 @@ $toggle_button_width: 24px;
 .second-sidebar {
   @extend %sidebar;
   background: var(--grey-200);
+  min-width: 20srem;
+  width: fit-content;
 }
 
 .sidebar {

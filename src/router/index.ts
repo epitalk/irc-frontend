@@ -82,8 +82,9 @@ router.beforeEach(async (to) => {
     }
 
     if (to.path.includes('channel')){
-        const regex =  to.path.includes('@me') ? /(?<=channel\/@me\/).*$/g : /(?<=channel\/).*$/g;
+        const regex = to.path.includes('@me') ? /(?<=channel\/@me\/).*$/g : /(?<=channel\/).*$/g;
         const matchs = to.path.match(regex);
+
         if (matchs){
             channelStore.setCurrentChannel(matchs[0])
             /*META*/

@@ -26,6 +26,7 @@ export class SseService {
 
   static initSseChannels = async () => {
     const channelStore = useChannelStore();
+    const userStore = useUserStore();
 
     const eventTopics = await this.connectToTopic("topics");
 
@@ -59,12 +60,13 @@ export class SseService {
     }
 
     /*Sse event private message*/
-    const userToken = "eyJhbGciOiJIUzI1NiJ9.ZGR6ZHo.5Onqs--VaZwP3TUR9EPpnWv0-7twffDU9fhnVLX1coc";
+    const userToken = userStore.user?.token;
     const eventPrivateMessage = await this.connectToTopic(`@me-${userToken}`);
 
     if (eventPrivateMessage){
       eventPrivateMessage.onmessage = (e) => {
-        console.log(e.data);
+        const res: { content: string, sender: string } = JSON.parse(e.data);
+        userStore.addMessageInUserWithMessage({content: res.content, username: res.sender}, res.sender)
       }
     }
   };
@@ -151,12 +153,22 @@ export class SseService {
     }
   }
 
-  static async addPrivateMessage(message: string) {
+  static async addPrivateMessage(content: string) {
     const channelStore = useChannelStore();
     const userStore = useUserStore();
 
-    await axios.post(`${API_URL}/api/message-private/${userStore.user?.username}/${channelStore.currentChannel}`, {
-      content: message
+    axios.post(`${API_URL}/api/message-private/${userStore.user?.username}/${channelStore.currentChannel}`, {
+      content
+    }).then(() => {
+      const d = new Date()
+      console.log( d.toISOString());
+
+      userStore.addMessageInUserWithMessage({
+        created_at: d.toISOString(),
+        updated_at: d.toISOString(),
+        content,
+        username: userStore.user?.username
+      }, channelStore.currentChannel)
     });
   }
 

@@ -23,7 +23,7 @@ export interface PrivateMessageModel extends TimeStamps, BaseMessage {
 
 
 
-export type MessageCommand = {
+export interface MessageCommand extends TimeStamps{
     content: string,
     username: string
 }

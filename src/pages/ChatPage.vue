@@ -7,8 +7,9 @@
         </div>
         <Icon name="more-vertical" />
       </header>
-
-      <Messages :messages="channelStore.messages[channelStore.currentChannel]" />
+      <Messages :messages="appStore.isInPrivateMessage
+  ? (userStore.usersWithMessage.find(u => u.username === channelStore.currentChannel)?.messages) || []
+  : channelStore.messages[channelStore.currentChannel]" />
       <div class="bg-grey-500 p-2 d-flex center-x bt-1">
         <ChatInput @addNewMessage="addNewMessage" />
       </div>
@@ -25,16 +26,19 @@ import { watch } from "vue";
 import { useChannelStore } from "@/stores/channel.store";
 import { SseService } from "@/services/SseService";
 import { useAppStore } from "@/stores/app.store";
+import { useUserStore } from "@/stores/user.store";
 
 /*STORE*/
 const channelStore = useChannelStore()
+const userStore = useUserStore()
 const appStore = useAppStore()
+
 
 const addNewMessage = (message: string) => {
   if (appStore.isInPrivateMessage){
-    SseService.addChannelMessage(message)
-  }else {
     SseService.addPrivateMessage(message)
+  }else {
+    SseService.addChannelMessage(message)
   }
 }
 

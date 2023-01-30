@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/channel/@me/${props.author}`" class="chat-preview stretch d-flex gap-2 py-1 px-3" :class="{active: channelStore.currentChannel === props.author}">
+  <router-link :to="`/channel/@me/${props.author}`" class="w-full chat-preview stretch d-flex gap-2 py-1 px-2" :class="{active: channelStore.currentChannel === props.author}">
     <Avatar borderRadius="12px"
             size="2.7rem"
             online
@@ -16,7 +16,7 @@
     </div>
 
     <div class="d-flex column between end-y">
-      <p class="ellipsis text-contrast-70">{{ props.timestamp }}</p>
+      <p class="ellipsis text-contrast-70">{{ formattedDate }}</p>
 <!--      <span class="notify-bubble d-flex center-y center-x">2</span>-->
     </div>
 
@@ -25,8 +25,10 @@
 
 <script lang="ts" setup>
 import Avatar from "@/components/Common/Avatar.vue"
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useChannelStore } from "@/stores/channel.store";
+
+
 
 /*STORE*/
 const channelStore = useChannelStore()
@@ -38,5 +40,26 @@ const props = defineProps({
   message: {type: String, default: null, required: true}
 })
 
+const formattedDate = ref()
 const firstLetter = ref(props.author ? props.author[0] : "U");
+
+const formatDate = () => {
+  const date = new Date(props.timestamp);
+  const options = { year: "numeric", month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } as const;
+  formattedDate.value = date.toLocaleDateString('fr-FR', options)
+}
+
+formatDate()
+
+/*WATCHERS*/
+watch(() => props.timestamp, (value) => {
+  formatDate()
+});
+
+watch(() => props.author, (value) => {
+  firstLetter.value = props.author ? props.author[0] : "U"
+});
+
+
+
 </script>
