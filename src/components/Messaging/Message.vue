@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import type { PropType } from "vue";
-import type { MessageCommand } from "@/api/message/messages";
+import type { MessageCommand } from "@/api/message/message.model";
 import Avatar from "@/components/Common/Avatar.vue";
 import BotMessage from "@/components/Messaging/BotMessage.vue";
 import { useUserStore } from "@/stores/user.store";

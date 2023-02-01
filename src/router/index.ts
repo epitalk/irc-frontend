@@ -6,6 +6,7 @@ import NotFound from "@/pages/NotFound.vue"
 import { useUserStore } from "@/stores/user.store";
 import { useChannelStore } from "@/stores/channel.store";
 import { SITE_NAME } from "@/utils/env";
+import { useAppStore } from "@/stores/app.store";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,14 @@ const router = createRouter({
         {
             path: '/channel/:channel',
             name: 'channel',
+            component: ChatPage,
+            meta: {
+                layout: "MainLayout"
+            }
+        },
+        {
+            path: '/channel/@me/:channel',
+            name: 'privateMessage',
             component: ChatPage,
             meta: {
                 layout: "MainLayout"
@@ -58,6 +67,7 @@ router.beforeEach(async (to) => {
     /*Middleware check if username isset*/
     const routesWithUsernameNotRequired = ['/welcome']
     const userStore = useUserStore();
+    const appStore = useAppStore();
 
     if (!userStore.user?.username && !routesWithUsernameNotRequired.includes(to.path)) {
         await router.push('/welcome')
@@ -72,14 +82,18 @@ router.beforeEach(async (to) => {
     }
 
     if (to.path.includes('channel')){
-        const regex = /(?<=channel\/).*$/g;
+        const regex = to.path.includes('@me') ? /(?<=channel\/@me\/).*$/g : /(?<=channel\/).*$/g;
         const matchs = to.path.match(regex);
+
         if (matchs){
             channelStore.setCurrentChannel(matchs[0])
             /*META*/
             document.title = SITE_NAME + " | " + channelStore.currentChannel
         }
     }
+
+    /*Middleware @me channels*/
+    appStore.isInPrivateMessage = to.path.includes('@me')
 });
 
 export default router

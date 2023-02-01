@@ -3,20 +3,29 @@ import { useChannelStore } from "@/stores/channel.store";
 import { useAppStore } from "@/stores/app.store";
 import { SseService } from "@/services/SseService";
 import type { ChannelModel } from "@/api/channel/channel.model";
+import { useUserStore } from "@/stores/user.store";
+import { MessageApi } from "@/api/message/message";
 
 /*STORES*/
 const channelStore = useChannelStore()
+const userStore = useUserStore()
 const appStore = useAppStore()
 
 const getChannels = async () => {
-  appStore.setPending(true)
   await ChannelApi.getChannels().then(async (res) => {
     channelStore.setChannels(res.data)
     initChannelMessages(res.data)
   }).catch(err => {
     console.log(err);
   })
-  appStore.setPending(false)
+}
+
+const getUsersWithMessage = async () => {
+  await MessageApi.getUsersWithMessage(userStore.user.id).then(async (res) => {
+    userStore.setUsersWithMessage(res.data)
+  }).catch(err => {
+    console.log(err);
+  })
 }
 
 const initChannelMessages = (channels: ChannelModel[]) => {
@@ -30,6 +39,9 @@ const initChannelMessages = (channels: ChannelModel[]) => {
 
 
 export const initApplication = async () => {
+  appStore.setPending(true)
   await getChannels()
+  await getUsersWithMessage()
   await SseService.initSseChannels()
+  appStore.setPending(false)
 }

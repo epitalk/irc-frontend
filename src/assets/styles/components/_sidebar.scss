@@ -4,15 +4,27 @@
 
 $toggle_button_width: 24px;
 
-.sidebar {
+%sidebar {
   position: sticky;
   top: 0;
   height: 100vh;
-  background: var(--grey-500);
 }
 
-.sidebar.expand {
-  width: 18rem;
+
+.second-sidebar {
+  @extend %sidebar;
+  background: var(--grey-200);
+  min-width: 20srem;
+  width: fit-content;
+}
+
+.sidebar {
+  @extend %sidebar;
+  background: var(--grey-500);
+
+  &.expand {
+    width: 18rem;
+  }
 }
 
 .sidebar-link {
