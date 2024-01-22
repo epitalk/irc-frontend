@@ -11,14 +11,14 @@
     <BotMessage v-if="props.message.content === 'list'">
       <span class="text-medium" v-if="channels && channels.length">
         {{ search
-        ? `Voici la list des channels avec votre recherche ${search}:`
+        ? `Voici la liste des channels avec votre recherche ${search}:`
         : "Voici tout les channels disponible sur le serveur:" }}
       </span>
 
       <span v-else class="text-medium">Aucun channel trouvé{{ search ? ` avec votre recherche ${search}` : null }}</span>
 
       <ul class="bullet-list" v-if="channels && channels.length">
-        <li v-for="channel in channels" :key="channel">{{ channel.name }}</li>
+        <li v-for="channel in channels" :key="channel.id">{{ channel.name }}</li>
       </ul>
 
     </BotMessage>
@@ -41,23 +41,20 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from "vue";
+import type { ChannelModel } from "@/api/channel/channel.model";
+import type { ComputedRef, PropType, Ref } from "vue";
 import type { MessageCommand } from "@/api/message/message.model";
 import Avatar from "@/components/Common/Avatar.vue";
 import BotMessage from "@/components/Messaging/BotMessage.vue";
 import { useUserStore } from "@/stores/user.store";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { SITE_NAME } from "@/utils/env";
 import { useChannelStore } from "@/stores/channel.store";
 import { ChannelService } from "@/services/ChannelService";
 
-interface m extends MessageCommand {
-  [key: number]: { search: string };
-}
-
 /*PROPS*/
 const props = defineProps({
-  message: { type: Object as PropType<m>, default: null, required: true }
+  message: { type: Object as PropType<MessageCommand>, required: true }
 });
 
 /*STORE*/
@@ -65,14 +62,20 @@ const userStore = useUserStore();
 const channelStore = useChannelStore();
 const username = ref(userStore.user?.username);
 
-/*COMPUTED*/
 const fullCurrentChannel = ChannelService.findChannelByName(channelStore.currentChannel);
 
+
+
 /*REFS*/
-const search = ref(props.message[0]?.search);
-const channels = ref(search.value ? channelStore.channels.filter(c => c.name.includes(search.value)) : channelStore.channels);
+const search: Ref<string | null> = ref(null);
 const firstLetter = ref(props.message?.username ? props.message?.username[0] : "U");
 
+
+/*COMPUTED*/
+const channels: ComputedRef<ChannelModel[]> = computed(() => {
+  const _search = search.value;
+  return _search ? channelStore.channels.filter(c => c.name.includes(_search)) : channelStore.channels;
+});
 
 onMounted(() => {
   const messageContainer = document.querySelector(".messages");

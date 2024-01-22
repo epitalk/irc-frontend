@@ -37,10 +37,10 @@ const goToFirst = () => {
 goToFirst()
 
 const computedMessage = (user: usersWithMessage) => {
-  return user.messages[user.messages.length - 1] ? user.messages[user.messages.length - 1].content : null
+  return user.messages[user.messages.length - 1] ? user.messages[user.messages.length - 1].content : undefined
 }
 const computedTimeStamp = (user: usersWithMessage) => {
-  return user.messages[user.messages.length - 1] ? user.messages[user.messages.length - 1].created_at : null
+  return user.messages[user.messages.length - 1] ? user.messages[user.messages.length - 1].created_at : undefined
 }
 
 /*WATCHERS*/

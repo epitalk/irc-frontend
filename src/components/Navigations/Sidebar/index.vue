@@ -15,7 +15,7 @@
         <side-bar-link
           :class="{ active: channelStore.currentChannel === channel.name  && !appStore.isInPrivateMessage}"
           v-for="channel in channelStore.channels"
-          :key="channel"
+          :key="channel.id"
           :item="channel.name"
           large />
       </ul>

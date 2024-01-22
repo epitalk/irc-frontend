@@ -3,7 +3,7 @@
     <label class="mt-3 mb-1" v-if="label" :for="props.id">{{ label }}</label>
 
     <Field
-      :as="rows ? 'textarea' : null"
+      :as="rows ? 'textarea' : undefined"
       :rows="rows"
       :rules="rules"
       class="h-full"

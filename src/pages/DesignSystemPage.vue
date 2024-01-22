@@ -37,7 +37,10 @@ import Logo from "@/components/Brands/Logo.vue"
 import Icon from "@/components/Common/Icon.vue"
 import Messages from "@/components/Messaging/Messages.vue"
 import BotMessage from "@/components/Messaging/BotMessage.vue"
-import messages from "@/data/messages.json"
+import messagesJson from "@/data/messages.json"
 import ChatInput from "@/components/Fields/ChatInput.vue"
 import UserMenu from "@/components/Menus/UserMenu.vue"
+import type { MessageCommand } from "@/api/message/message.model";
+
+const messages = messagesJson as MessageCommand[];
 </script>

@@ -32,7 +32,7 @@ const props = defineProps({
 const currentCommandRef = ref(props.currentCommand);
 
 /*METHODS*/
-const handleSelect = (e: KeyboardEvent, command: string) => {
+const handleSelect = (e: MouseEvent, command: string) => {
   emit("handleSelect", e, command);
 };
 const setCurrentCommand = (index: number) => {
