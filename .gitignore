@@ -28,3 +28,4 @@ coverage
 *.sw?
 pack
 package-lock.json
+.env

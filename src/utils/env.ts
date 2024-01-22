@@ -1,4 +1,4 @@
-export const SITE_NAME = "Epitalk"
-export const MERCURE_URL = "http://localhost:1405/.well-known/mercure"
-export const API_URL = "http://localhost:3333"
+export const SITE_NAME = import.meta.env.VITE_APP_NAME
+export const MERCURE_URL = import.meta.env.VITE_MERCURE_URL
+export const API_URL = import.meta.env.VITE_API_URL
 export const adminChannels = ['topics', SITE_NAME]
