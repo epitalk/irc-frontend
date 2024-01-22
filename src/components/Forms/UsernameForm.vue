@@ -28,6 +28,6 @@ const values = ref({username: ''})
 
 /*METHODS*/
 const handleSubmit = () => {
-  emit('submit', values.value)
+  emit('submit', values.value.username)
 }
 </script>
