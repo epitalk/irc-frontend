@@ -2,7 +2,7 @@
   <main class="w-full d-flex stretch" v-if="!appStore.pending">
     <Sidebar/>
     <SecondSidebar v-if="appStore.isInPrivateMessage"/>
-    <slot />
+    <router-view />
 
   </main>
 

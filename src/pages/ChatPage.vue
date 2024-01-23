@@ -1,5 +1,6 @@
 <template>
   <section class="vh-100 w-full">
+    <h1 class="h2 mb-2">Bienvenue</h1>
     <div id="messaging">
       <header class="bg-dark px-2 py-1 d-flex between bb-1">
         <div class="d-flex center-y gap-2">

@@ -7,6 +7,8 @@ import router from './router'
 import './assets/styles/main.scss'
 
 const app = createApp(App)
+    .use(router)
+    .use(createPinia())
 
 /*Directives*/
 import clickOutSide from "@/directives/clickOutSide";
@@ -38,7 +40,6 @@ configure({
     }),
 });
 
-app.use(createPinia())
-app.use(router)
+// app.use(createPinia())
 
 app.mount('#app')

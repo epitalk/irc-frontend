@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import type { Router } from 'vue-router'
 import ChatPage from "@/pages/ChatPage.vue"
 import DesignSystemPage from "@/pages/DesignSystemPage.vue"
 import WelcomePage from "@/pages/WelcomePage.vue"
@@ -7,57 +8,63 @@ import { useUserStore } from "@/stores/user.store";
 import { useChannelStore } from "@/stores/channel.store";
 import { SITE_NAME } from "@/utils/env";
 import { useAppStore } from "@/stores/app.store";
+import BlankLayout from "@/layouts/BlankLayout.vue";
+import MainLayout from "@/layouts/MainLayout.vue";
 
-const router = createRouter({
+const router: Router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: ChatPage,
-            meta: {
-                layout: "MainLayout"
-            }
+            component: BlankLayout,
+            children: [
+                {
+                    path: 'welcome',
+                    name: 'welcome',
+                    components: {
+                        default: WelcomePage
+                    }
+                },
+            ]
         },
         {
-            path: '/channel/:channel',
-            name: 'channel',
-            component: ChatPage,
-            meta: {
-                layout: "MainLayout"
-            }
-        },
-        {
-            path: '/channel/@me/:channel',
-            name: 'privateMessage',
-            component: ChatPage,
-            meta: {
-                layout: "MainLayout"
-            }
-        },
-        {
-            path: '/design-system',
-            name: 'designSystem',
-            component: DesignSystemPage,
-            meta: {
-                layout: "MainLayout"
-            }
-        },
-        {
-            path: '/welcome',
-            name: 'welcome',
-            component: WelcomePage,
-            meta: {
-                layout: "BlankLayout"
-            }
+            path: '/',
+            component: MainLayout,
+            children: [
+                {
+                    path: '',
+                    name: 'home',
+                    components: {
+                        default: ChatPage
+                    }
+                },
+                {
+                    path: 'channel/:channel',
+                    name: 'channel',
+                    components: {
+                        default: ChatPage
+                    }
+                },
+                {
+                    path: 'channel/@me/:channel',
+                    name: 'privateMessage',
+                    components: {
+                        default: ChatPage
+                    }
+                },
+                {
+                    path: 'design-system',
+                    name: 'designSystem',
+                    components: {
+                        default: DesignSystemPage
+                    }
+                },
+            ]
         },
         {
             path: '/:pathMatch(.*)*',
             name: '404',
-            component: NotFound,
-            meta: {
-                layout: "BlankLayout"
-            }
+            component: NotFound
         }
     ]
 })
