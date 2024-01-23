@@ -16,19 +16,6 @@ const router: Router = createRouter({
     routes: [
         {
             path: '/',
-            component: BlankLayout,
-            children: [
-                {
-                    path: 'welcome',
-                    name: 'welcome',
-                    components: {
-                        default: WelcomePage
-                    }
-                },
-            ]
-        },
-        {
-            path: '/',
             component: MainLayout,
             children: [
                 {
@@ -57,6 +44,19 @@ const router: Router = createRouter({
                     name: 'designSystem',
                     components: {
                         default: DesignSystemPage
+                    }
+                },
+            ]
+        },
+        {
+            path: '/',
+            component: BlankLayout,
+            children: [
+                {
+                    path: 'welcome',
+                    name: 'welcome',
+                    components: {
+                        default: WelcomePage
                     }
                 },
             ]
