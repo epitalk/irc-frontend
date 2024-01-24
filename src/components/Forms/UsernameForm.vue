@@ -10,7 +10,7 @@
         @update:value="values.username = $event"
     />
     <div class="d-flex end-x mt-3">
-      <button type="submit" :disabled="!meta.valid" class="btn" data-variant="primary">Commencer à discuter</button>
+      <button type="submit" :disabled="!meta.valid" class="btn start-chat-button" data-variant="primary">Commencer à discuter</button>
     </div>
   </Form>
 </template>
@@ -31,3 +31,13 @@ const handleSubmit = () => {
   emit('submit', values.value.username)
 }
 </script>
+
+<style lang="scss" scoped>
+@import "@/assets/styles/core/mixins";
+.start-chat-button {
+  @include down(500px) {
+    font-size: 16px;
+    width: 100%;
+  }
+}
+</style>

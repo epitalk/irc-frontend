@@ -1,3 +1,4 @@
+@import 'functions';
 // Responsive
 @mixin up($size) {
   $size: strip-unit($size);

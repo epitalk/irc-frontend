@@ -1,5 +1,9 @@
 // Generic
 @import "variables";
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: $font;
   font-size: 14px;

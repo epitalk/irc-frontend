@@ -18,3 +18,14 @@ const props = defineProps({
 /*REFS*/
 const messagesContainer = ref()
 </script>
+
+
+<style lang="scss" scoped>
+@import "@/assets/styles/core/mixins";
+.messages {
+  @include down(1000px){
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+</style>

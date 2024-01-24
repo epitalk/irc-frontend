@@ -1,6 +1,13 @@
+@import "../core/mixins";
+
 .message-receive, .message-send {
   width: 60%;
   min-width: 400px;
+
+  @include down(1000px) {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 .message-send {

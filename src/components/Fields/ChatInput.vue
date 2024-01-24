@@ -1,5 +1,6 @@
 <template>
   <div class="input d-flex center-y w-full gap-2 relative">
+    <CommandHelpAlert />
     <AutoComplete @addNewMessage="addNewMessage" :placeholder="`Envoyer un message ${appStore.isInPrivateMessage ? `à @${channelStore.currentChannel}` : `dans #${channelStore.currentChannel}`}`" />
   </div>
 </template>
@@ -9,6 +10,7 @@ import AutoComplete from "@/components/Emojis/AutoComplete.vue"
 import { useChannelStore } from "@/stores/channel.store";
 import { ref } from "vue";
 import { useAppStore } from "@/stores/app.store";
+import CommandHelpAlert from "@/components/alerts/CommandHelpAlert.vue";
 /*STORE*/
 const channelStore = useChannelStore()
 const appStore = useAppStore()

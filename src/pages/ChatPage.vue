@@ -1,8 +1,7 @@
 <template>
   <section class="vh-100 w-full">
-    <h1 class="h2 mb-2">Bienvenue</h1>
     <div id="messaging">
-      <header class="bg-dark px-2 py-1 d-flex between bb-1">
+      <header class="bg-dark px-2 py-1 d-flex between bb-1 chat-header">
         <div class="d-flex center-y gap-2">
           <h6>{{ channelStore.currentChannel }}</h6>
         </div>
@@ -59,8 +58,16 @@ watch(() => channelStore.currentChannel, () => {
     SseService.getChannelMessages()
   }
 });
-
-
-
-
 </script>
+
+<style lang="scss" scoped>
+@import "@/assets/styles/core/mixins";
+.chat-header {
+  @include down(1000px){
+    user-select: none;
+    justify-content: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+</style>

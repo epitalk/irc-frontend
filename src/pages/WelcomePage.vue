@@ -1,5 +1,5 @@
 <template>
-  <section class="mx-4 vh-100 d-flex center-y center-x">
+  <section id="welcome" class="mx-4 vh-100 d-flex center-y center-x">
     <div class="welcome-container w-full">
       <h1 class="mb-2 h2">Bienvenue sur {{ SITE_NAME }}</h1>
 
@@ -43,7 +43,15 @@ const handleSubmit = async (username: string) => {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/core/mixins";
 .welcome-container {
   max-width: 550px;
+}
+
+#welcome {
+  @include down(500px) {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
 }
 </style>

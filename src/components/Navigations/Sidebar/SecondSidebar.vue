@@ -1,5 +1,6 @@
 <template>
   <nav class="second-sidebar expand">
+    <BackButton @click="$emit('back')" />
     <div class="d-flex column between h-full">
       <div class="d-flex column center-y h-full overflow-y-auto">
         <ChatPreview
@@ -19,6 +20,7 @@ import { useUserStore } from "@/stores/user.store";
 import type { usersWithMessage } from "@/stores/user.store";
 import { useRoute, useRouter } from "vue-router";
 import { watch } from "vue";
+import BackButton from "@/components/Navigations/BackButton.vue";
 
 /*STORE*/
 const userStore = useUserStore();
@@ -49,3 +51,20 @@ watch(() =>  userStore.usersWithMessage, (value) => {
 }, {deep: true});
 
 </script>
+
+
+<style lang="scss" scoped>
+@import "@/assets/styles/core/mixins";
+
+.second-sidebar.expand {
+  @include down(1000px) {
+    position: absolute;
+    z-index: 30;
+    width: 100vw;
+
+    & .logo {
+      justify-content: center;
+    }
+  }
+}
+</style>
