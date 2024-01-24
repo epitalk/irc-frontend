@@ -10,7 +10,7 @@
       <Messages :messages="appStore.isInPrivateMessage
   ? (userStore.usersWithMessage.find(u => u.username === channelStore.currentChannel)?.messages) || []
   : channelStore.messages[channelStore.currentChannel]" />
-      <div class="bg-grey-500 p-2 d-flex center-x bt-1">
+      <div class="bg-grey-500 p-2 d-flex center-x bt-1 footer-chat">
         <ChatInput @addNewMessage="addNewMessage" />
       </div>
     </div>
@@ -63,11 +63,19 @@ watch(() => channelStore.currentChannel, () => {
 <style lang="scss" scoped>
 @import "@/assets/styles/core/mixins";
 .chat-header {
+  position: sticky;
+  top: 0;
+
   @include down(1000px){
     user-select: none;
     justify-content: center;
     padding-top: 12px;
     padding-bottom: 12px;
   }
+}
+
+.footer-chat {
+  position: sticky;
+  bottom: 0;
 }
 </style>
