@@ -23,6 +23,8 @@ const messagesContainer = ref()
 <style lang="scss" scoped>
 @import "@/assets/styles/core/mixins";
 .messages {
+  padding-bottom: 100px;
+  padding-top: 65px;
   @include down(1000px){
     padding-left: 12px;
     padding-right: 12px;
