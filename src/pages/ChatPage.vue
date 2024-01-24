@@ -63,7 +63,7 @@ watch(() => channelStore.currentChannel, () => {
 <style lang="scss" scoped>
 @import "@/assets/styles/core/mixins";
 .chat-header {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   z-index: 5;
@@ -81,7 +81,7 @@ watch(() => channelStore.currentChannel, () => {
   width: 100%;
   bottom: 0;
   @include down(1000px){
-    position: sticky;
+    position: absolute;
   }
 }
 </style>
