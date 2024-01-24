@@ -77,8 +77,11 @@ watch(() => channelStore.currentChannel, () => {
 }
 
 .footer-chat {
-  position: fixed;
+  position: relative;
   width: 100%;
   bottom: 0;
+  @include down(1000px){
+    position: sticky;
+  }
 }
 </style>
