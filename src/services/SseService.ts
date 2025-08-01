@@ -97,7 +97,9 @@ export class SseService {
     }
 
     url.searchParams.append("topic", topic);
-    url.searchParams.append("authorization", `Bearer ${MERCURE_TOKEN}`);
+    url.searchParams.append("authorization", MERCURE_TOKEN);
+    console.log(url)
+    console.log({ MERCURE_TOKEN })
     const eventSource = new EventSource(url, { withCredentials: true });
 
     /* Fix firefox warning */
