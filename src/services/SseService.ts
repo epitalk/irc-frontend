@@ -1,4 +1,4 @@
-import { adminChannels, API_URL, MERCURE_URL } from "@/utils/env";
+import { adminChannels, API_URL, MERCURE_URL, MERCURE_TOKEN } from "@/utils/env";
 import { useChannelStore } from "@/stores/channel.store";
 import axios from "axios";
 import { useUserStore } from "@/stores/user.store";
@@ -97,6 +97,7 @@ export class SseService {
     }
 
     url.searchParams.append("topic", topic);
+    url.searchParams.append("authorization", `Bearer ${MERCURE_TOKEN}`);
     const eventSource = new EventSource(url, { withCredentials: true });
 
     /* Fix firefox warning */
