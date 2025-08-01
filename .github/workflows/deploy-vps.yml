@@ -25,15 +25,20 @@ jobs:
       - name: 🔍 Install dependencies
         run: npm install
 
+      - name: 📝 Inject secret in .env.production
+        run: |
+          echo "🔐 Injecting MERCURE_TOKEN into .env.production"
+          if [ -f .env.production ]; then
+            sed -i "s|^VITE_MERCURE_TOKEN=.*|VITE_MERCURE_TOKEN=${{ secrets.MERCURE_TOKEN }}|" .env.production
+          else
+            echo "❌ .env.production not found" && exit 1
+          fi
+
       - name: 🧱 Build application
         run: npm run build
 
       - name: 🔑 Copy .env file
         run: cp .env.production dist/.env
-
-      - name: 📝 Update .env with Secrets
-        run: |
-          sed -i "s|VITE_MERCURE_TOKEN=.*|VITE_MERCURE_TOKEN=${{ secrets.MERCURE_TOKEN }}|" dist/.env
 
       - name: 📤 Deploy to VPS
         uses: easingthemes/ssh-deploy@main
